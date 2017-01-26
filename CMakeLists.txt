@@ -57,6 +57,23 @@ if(NOT ${TENSORFLOW_FOUND})
 	message(FATAL_ERROR "Tensorflow could not be found. Try installing it manually using 'pip install -U tensorflow', or set the TENSORFLOW_PATH environment variable to point to the *dist-pacakges/tensorflow directory.")
 endif()
 
+# we need to add the `lib` prefix to the library name so that the linker can find it!
+set(TENSORFLOW_ORIG_LIBRARY ${TENSORFLOW_PATH}/python/_pywrap_tensorflow${CMAKE_SHARED_LIBRARY_SUFFIX})
+set(TENSORFLOW_LIBRARY ${CATKIN_DEVEL_PREFIX}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}_pywrap_tensorflow${CMAKE_SHARED_LIBRARY_SUFFIX})
+
+if(NOT EXISTS ${TENSORFLOW_LIBRARY})
+	execute_process(
+		COMMAND ln -s ${TENSORFLOW_ORIG_LIBRARY} ${TENSORFLOW_LIBRARY}
+		RESULT_VARIABLE LINK_FAILED
+		OUTPUT_QUIET
+	)
+	if(NOT LINK_FAILED)
+		message("Created tensorflow library link ${TENSORFLOW_ORIG_LIBRARY} -> ${TENSORFLOW_LIBRARY}.")
+	else()
+		message(FATAL_ERROR "Could not create symlink from ${TENSORFLOW_ORIG_LIBRARY} -> ${TENSORFLOW_LIBRARY}.")
+	endif()
+endif()
+
 catkin_python_setup()
 
 catkin_package(
@@ -65,6 +82,4 @@ catkin_package(
 	CFG_EXTRAS tensorflow-extras.cmake  # to add the c++11 compiler flag
 )
 
-# we need to add the `lib` prefix to the library name so that the linker can find it!
-add_custom_target(run ALL DEPENDS ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/lib_pywrap_tensorflow.so )
-add_custom_command(OUTPUT ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/lib_pywrap_tensorflow.so COMMAND ln ARGS -s ${TENSORFLOW_PATH}/python/_pywrap_tensorflow.so  ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/${CMAKE_SHARED_LIBRARY_PREFIX}_pywrap_tensorflow${CMAKE_SHARED_LIBRARY_SUFFIX})
+add_custom_target(run ALL DEPENDS ${TENSORFLOW_LIBRARY})
