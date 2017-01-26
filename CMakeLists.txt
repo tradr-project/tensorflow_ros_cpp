@@ -54,7 +54,7 @@ else()
 endif()
 
 if(NOT ${TENSORFLOW_FOUND})
-	message(FATAL_ERROR "Tensorflow could not be found. Try installing it manually using 'pip install -U tensorflow', or set the TENSORFLOW_PATH environment variable to point to the *dist-pacakges/tensorflow directory.")
+	message(FATAL_ERROR "Tensorflow could not be found. Try installing it manually using 'pip install --user tensorflow', or set the TENSORFLOW_PATH environment variable to point to the *dist-pacakges/tensorflow directory.")
 endif()
 
 # we need to add the `lib` prefix to the library name so that the linker can find it!
