@@ -74,8 +74,6 @@ if(NOT EXISTS ${TENSORFLOW_LIBRARY})
 	endif()
 endif()
 
-catkin_python_setup()
-
 catkin_package(
 	INCLUDE_DIRS ${TENSORFLOW_PATH}/include
 	LIBRARIES _pywrap_tensorflow python2.7  # yes, we also need to link against python...
@@ -83,3 +81,8 @@ catkin_package(
 )
 
 add_custom_target(run ALL DEPENDS ${TENSORFLOW_LIBRARY})
+
+install(
+	FILES ${TENSORFLOW_LIBRARY}
+	DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+)
