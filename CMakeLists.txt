@@ -58,9 +58,20 @@ if(NOT ${TENSORFLOW_FOUND})
 endif()
 
 # we need to add the `lib` prefix to the library name so that the linker can find it!
-set(TENSORFLOW_ORIG_LIBRARY ${TENSORFLOW_PATH}/python/_pywrap_tensorflow${CMAKE_SHARED_LIBRARY_SUFFIX})
-set(TENSORFLOW_LIBRARY ${CATKIN_DEVEL_PREFIX}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}_pywrap_tensorflow${CMAKE_SHARED_LIBRARY_SUFFIX})
+# first, test for presence of the Tensorflow 1.1+ library
+set(TENSORFLOW_ORIG_LIBRARY ${TENSORFLOW_PATH}/python/_pywrap_tensorflow_internal${CMAKE_SHARED_LIBRARY_SUFFIX})
+if(NOT EXISTS ${TENSORFLOW_ORIG_LIBRARY})
+	# otherwise, use the filename used formerly
+	set(TENSORFLOW_ORIG_LIBRARY ${TENSORFLOW_PATH}/python/_pywrap_tensorflow${CMAKE_SHARED_LIBRARY_SUFFIX})
+endif()
 
+if(EXISTS ${TENSORFLOW_ORIG_LIBRARY})
+	message("Using Tensorflow library ${TENSORFLOW_ORIG_LIBRARY}")
+else()
+	message(FATAL_ERROR "Tensorflow library _pywrap_tensorflow(_internal) not found in ${TENSORFLOW_PATH}")
+endif()
+
+set(TENSORFLOW_LIBRARY ${CATKIN_DEVEL_PREFIX}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}_pywrap_tensorflow${CMAKE_SHARED_LIBRARY_SUFFIX})
 if(NOT EXISTS ${TENSORFLOW_LIBRARY})
 	execute_process(
 		COMMAND ln -s ${TENSORFLOW_ORIG_LIBRARY} ${TENSORFLOW_LIBRARY}
