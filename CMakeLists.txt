@@ -15,10 +15,17 @@ endif()
 
 # try finding tensorflow with pip
 execute_process(
-	COMMAND pip2 show tensorflow
+	COMMAND pip2 show tensorflow-gpu
 	RESULT_VARIABLE PIP_DIDNT_FIND_TENSORFLOW
 	OUTPUT_VARIABLE PIP_SHOW_OUTPUT	
 )
+if(PIP_DIDNT_FIND_TENSORFLOW)
+	execute_process(
+		COMMAND pip2 show tensorflow
+		RESULT_VARIABLE PIP_DIDNT_FIND_TENSORFLOW
+		OUTPUT_VARIABLE PIP_SHOW_OUTPUT	
+	)
+endif()
 
 # find the tensorflow path using some heuristics
 set(TENSORFLOW_FOUND 0)
