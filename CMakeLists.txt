@@ -15,7 +15,7 @@ endif()
 
 # try finding tensorflow with pip
 execute_process(
-	COMMAND pip show tensorflow
+	COMMAND pip2 show tensorflow
 	RESULT_VARIABLE PIP_DIDNT_FIND_TENSORFLOW
 	OUTPUT_VARIABLE PIP_SHOW_OUTPUT	
 )
