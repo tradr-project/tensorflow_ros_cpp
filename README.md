@@ -2,6 +2,17 @@
 
 A catkin-friendly package for utilizing the C++ API of tensorflow.
 
+## Compatible versions
+
+This library was tested on Ubuntu 14.04 64bit with Python 2.7.6, ROS Indigo and the following TF libraries installed via pip:
+
+- tensorflow==1.1.0
+- tensorflow==1.3.0
+- tensorflow==1.4.0
+- tensorflow_gpu==1.1.0
+- tensorflow_gpu==1.3.0
+- tensorflow_gpu==1.4.0
+
 ## Prerequisites
 
 This package assumes tensorflow python package is installed. Ideally via pip, but custom installs are also supported (it they're either on PYTHON\_PACKAGE\_PATH or if you manually specify environment variable TENSORFLOW\_PATH).
