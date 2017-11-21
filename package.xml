@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>tensorflow_ros</name>
-  <version>1.2.0</version>
+  <version>1.2.1</version>
   <description>Catkin-friendly C++ bindings for the tensorflow package (utilizing the pip-installed tensorflow, which I don't know if it is an officially supported way, but it works).</description>
 
   <maintainer email="martin.pecka@cvut.cz">Martin Pecka</maintainer>

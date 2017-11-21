@@ -117,8 +117,14 @@ if(EXISTS ${TENSORFLOW_FRAMEWORK_ORIG_LIBRARY})
 	list(APPEND TENSORFLOW_TARGETS ${TENSORFLOW_FRAMEWORK_LIBRARY})
 endif()
 
+set(TENSORFLOW_INCLUDE_DIRS ${TENSORFLOW_PATH}/include)
+# Added in tensorflow 1.4.0
+if (EXISTS ${TENSORFLOW_PATH}/include/external/nsync/public)
+	list(APPEND TENSORFLOW_INCLUDE_DIRS ${TENSORFLOW_PATH}/include/external/nsync/public)
+endif()
+
 catkin_package(
-	INCLUDE_DIRS ${TENSORFLOW_PATH}/include
+	INCLUDE_DIRS ${TENSORFLOW_INCLUDE_DIRS}
 	LIBRARIES ${TENSORFLOW_LIBRARIES} python2.7  # yes, we also need to link against python...
 	CFG_EXTRAS tensorflow-extras.cmake  # to add the c++11 compiler flag
 )
