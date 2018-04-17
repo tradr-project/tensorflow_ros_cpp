@@ -3,8 +3,20 @@ project(tensorflow_ros)
 
 find_package(catkin REQUIRED)
 
-find_package( PythonLibs 2.7 REQUIRED )
-find_package( PythonInterp 2.7 REQUIRED )
+# variables affecting the search for the tensorflow library
+set(FORCE_TF_PIP_SEARCH OFF CACHE BOOL "Whether to search for pip-installed Tensorflow even on systems using C++11 ABI")
+set(DISABLE_TF_PIP_SEARCH OFF CACHE BOOL "Whether to skip search for pip-installed Tensorflow")
+set(FORCE_TF_BAZEL_SEARCH OFF CACHE BOOL "Whether to search for bazel-compiled Tensorflow even if pip-installed tensorflow was found")
+set(DISABLE_TF_BAZEL_SEARCH OFF CACHE BOOL "Whether to skip search for bazel-compiled Tensorflow")
+
+# variables affecting pip search
+set(TF_PYTHON_VERSION 2.7 CACHE STRING "Python version to be used for searching for Tensorflow")
+set(TF_PIP_EXECUTABLE pip${TF_PYTHON_VERSION} CACHE STRING "Path to pip executable used for searching for tensorflow")
+set(TF_PIP_DISABLE_SEARCH_FOR_GPU_VERSION OFF CACHE BOOL "If ON, tensorflow-gpu will be ignored during the search")
+set(TF_PIP_PATH "" CACHE STRING "Manually defined path to (site|dist)-packages/tensorflow (should not be needed)")
+
+
+message("-- tensorflow_ros is probing the system")
 
 # check for a modern c++ compiler, since tensorflow needs support for the c++11 standard
 include(CheckCXXCompilerFlag)
@@ -13,119 +25,60 @@ if(NOT COMPILER_SUPPORTS_CXX11)
 	message(FATAL_ERROR "You must use a compiler that supports the c++11 standard, e.g. GCC 4.9.")
 endif()
 
-# try finding tensorflow with pip
+# detect if the system uses C++11 ABI
 execute_process(
-	COMMAND pip2 show tensorflow-gpu
-	RESULT_VARIABLE PIP_DIDNT_FIND_TENSORFLOW
-	OUTPUT_VARIABLE PIP_SHOW_OUTPUT	
+		COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/scripts/detect_cxx11_abi.sh ${CMAKE_CXX_COMPILER}
+		RESULT_VARIABLE DETECT_CXX11_ABI_RESULT
 )
-if(PIP_DIDNT_FIND_TENSORFLOW)
-	execute_process(
-		COMMAND pip2 show tensorflow
-		RESULT_VARIABLE PIP_DIDNT_FIND_TENSORFLOW
-		OUTPUT_VARIABLE PIP_SHOW_OUTPUT	
-	)
+if(${DETECT_CXX11_ABI_RESULT} EQUAL 0)
+	set(SYSTEM_USES_CXX11_ABI 1 CACHE BOOL "Whether the system uses C++11 ABI")
+	message("-- - The system uses C++11 ABI, the use of tensorflow from pip is possible, but problematic; consider compiling tensorflow yourself")
+else()
+	set(SYSTEM_USES_CXX11_ABI 0 CACHE BOOL "Whether the system uses C++11 ABI")
+	message("-- - The system doesn't use C++11 ABI, you can use tensorflow from pip without problems")
 endif()
 
-# find the tensorflow path using some heuristics
+# start the search
+
+set(HAS_TENSORFLOW_GPU 0)
 set(TENSORFLOW_FOUND 0)
-if(DEFINED ENV{TENSORFLOW_PATH})
-	# if TENSORFLOW_PATH env var is defined, give it precedence
-	if(EXISTS $ENV{TENSORFLOW_PATH})
-		set(TENSORFLOW_PATH "$ENV{TENSORFLOW_PATH}")
-		set(TENSORFLOW_FOUND 1)
-		message("Found user-specified tensorflow: ${TENSORFLOW_PATH}")
-	else()
-		message(WARNING "User-specified tensorflow from TENSORFLOW_PATH not found: $ENV{TENSORFLOW_PATH}")
-	endif()
-elseif(NOT PIP_DIDNT_FIND_TENSORFLOW)
-	# parse pip output in case it found tensorflow
-	string(REGEX MATCH "Location: [^\r\n]*[\r\n]" TENSORFLOW_LOCATION ${PIP_SHOW_OUTPUT})
-	string(REGEX REPLACE "^Location: (.*)[\r\n]$" "\\1" TENSORFLOW_LOCATION2 ${TENSORFLOW_LOCATION})
-	set(TENSORFLOW_PATH "${TENSORFLOW_LOCATION2}/tensorflow")
-	set(TENSORFLOW_FOUND 1)
-	message("Found pip-installed tensorflow: ${TENSORFLOW_PATH}")
+
+# 1. PIP
+
+if((NOT ${SYSTEM_USES_CXX11_ABI} OR ${FORCE_TF_PIP_SEARCH}) AND NOT ${DISABLE_TF_PIP_SEARCH})
+	message("-- - Trying to find Tensorflow installed by pip")
+
+	include(cmake/detect_tf_pip.cmake)
+
 else()
-	# try finding tensorflow on the PYTHON_PACKAGE_PATH and a few other system paths
-	find_path(TENSORFLOW_LOCATION tensorflow 
-		PATHS ENV PYTHON_PACKAGE_PATH /usr/local/lib/python2.7/dist-packages /usr/lib/python2.7/dist-packages $ENV{HOME}/.local/lib/python2.7/site-packages
-		NO_DEFAULT_PATH
-	)
-	if(${TENSORFLOW_LOCATION} MATCHES NOTFOUND)
-		message(WARNING "Tensorflow not found")
+	if(${DISABLE_TF_PIP_SEARCH})
+		message("-- - Not searching for Tensorflow installed by pip, it is disabled.")
 	else()
-		set(TENSORFLOW_PATH "${TENSORFLOW_LOCATION}/tensorflow")
-		set(TENSORFLOW_FOUND 1)
-		message("Found tensorflow: ${TENSORFLOW_PATH}")
+		message("-- - Not searching for Tensorflow installed by pip since the system uses C++11 ABI. Set FORCE_TF_PIP_SEARCH to force the search.")
 	endif()
 endif()
 
-if(NOT ${TENSORFLOW_FOUND})
-	message(FATAL_ERROR "Tensorflow could not be found. Try installing it manually using 'pip install --user tensorflow', or set the TENSORFLOW_PATH environment variable to point to the *dist-pacakges/tensorflow directory.")
-endif()
+# 2. Bazel
 
-# we need to add the `lib` prefix to the library name so that the linker can find it!
-# first, test for presence of the Tensorflow 1.1+ library
-set(TENSORFLOW_ORIG_LIBRARY ${TENSORFLOW_PATH}/python/_pywrap_tensorflow_internal${CMAKE_SHARED_LIBRARY_SUFFIX})
-if(NOT EXISTS ${TENSORFLOW_ORIG_LIBRARY})
-	# otherwise, use the filename used formerly
-	set(TENSORFLOW_ORIG_LIBRARY ${TENSORFLOW_PATH}/python/_pywrap_tensorflow${CMAKE_SHARED_LIBRARY_SUFFIX})
-endif()
+if((NOT ${TENSORFLOW_FOUND} OR ${FORCE_TF_BAZEL_SEARCH}) AND NOT ${DISABLE_TF_BAZEL_SEARCH})
+	message("-- - Trying to find Tensorflow compiled by bazel")
 
-if(EXISTS ${TENSORFLOW_ORIG_LIBRARY})
-	message("Using Tensorflow library ${TENSORFLOW_ORIG_LIBRARY}")
+	include(cmake/detect_tf_bazel.cmake)
+
 else()
-	message(FATAL_ERROR "Tensorflow library _pywrap_tensorflow(_internal) not found in ${TENSORFLOW_PATH}")
-endif()
-
-set(TENSORFLOW_LIBRARY ${CATKIN_DEVEL_PREFIX}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}_pywrap_tensorflow${CMAKE_SHARED_LIBRARY_SUFFIX})
-if(NOT EXISTS ${TENSORFLOW_LIBRARY})
-	file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/lib)
-	execute_process(
-		COMMAND ln -s ${TENSORFLOW_ORIG_LIBRARY} ${TENSORFLOW_LIBRARY}
-		RESULT_VARIABLE LINK_FAILED
-		OUTPUT_QUIET
-	)
-	if(NOT LINK_FAILED)
-		message("Created tensorflow library link ${TENSORFLOW_ORIG_LIBRARY} -> ${TENSORFLOW_LIBRARY}.")
+	if(${DISABLE_TF_BAZEL_SEARCH})
+		message("-- - Not searching for Tensorflow compiled by bazel, it is disabled.")
 	else()
-		message(FATAL_ERROR "Could not create symlink from ${TENSORFLOW_ORIG_LIBRARY} -> ${TENSORFLOW_LIBRARY}.")
+		message("-- - Not searching for Tensorflow compiled by bazel since pip-installed Tensorflow was found. Set FORCE_TF_BAZEL_SEARCH to force the search.")
 	endif()
 endif()
 
-set(TENSORFLOW_LIBRARIES _pywrap_tensorflow)
-set(TENSORFLOW_TARGETS ${TENSORFLOW_LIBRARY})
-
-# Added in tensorflow 1.4.0
-set(TENSORFLOW_FRAMEWORK_LIBRARY ${CATKIN_DEVEL_PREFIX}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}tensorflow_framework${CMAKE_SHARED_LIBRARY_SUFFIX})
-set(TENSORFLOW_FRAMEWORK_ORIG_LIBRARY ${TENSORFLOW_PATH}/${CMAKE_SHARED_LIBRARY_PREFIX}tensorflow_framework${CMAKE_SHARED_LIBRARY_SUFFIX})
-if(EXISTS ${TENSORFLOW_FRAMEWORK_ORIG_LIBRARY})
-	if(NOT EXISTS ${TENSORFLOW_FRAMEWORK_LIBRARY})
-		file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/lib)
-		execute_process(
-			COMMAND ln -s ${TENSORFLOW_FRAMEWORK_ORIG_LIBRARY} ${TENSORFLOW_FRAMEWORK_LIBRARY}
-			RESULT_VARIABLE LINK_FAILED
-			OUTPUT_QUIET
-		)
-		if(NOT LINK_FAILED)
-			message("Created tensorflow library link ${TENSORFLOW_FRAMEWORK_ORIG_LIBRARY} -> ${TENSORFLOW_FRAMEWORK_LIBRARY}.")
-		else()
-			message(FATAL_ERROR "Could not create symlink from ${TENSORFLOW_FRAMEWORK_ORIG_LIBRARY} -> ${TENSORFLOW_FRAMEWORK_LIBRARY}.")
-		endif()
-	endif()
-	list(APPEND TENSORFLOW_LIBRARIES tensorflow_framework)
-	list(APPEND TENSORFLOW_TARGETS ${TENSORFLOW_FRAMEWORK_LIBRARY})
-endif()
-
-set(TENSORFLOW_INCLUDE_DIRS ${TENSORFLOW_PATH}/include)
-# Added in tensorflow 1.4.0
-if (EXISTS ${TENSORFLOW_PATH}/include/external/nsync/public)
-	list(APPEND TENSORFLOW_INCLUDE_DIRS ${TENSORFLOW_PATH}/include/external/nsync/public)
-endif()
+message(${tensorflow_ros_INCLUDE_DIRS})  # TODO remove
+message(${tensorflow_ros_LIBRARIES})  # TODO remove
 
 catkin_package(
-	INCLUDE_DIRS ${TENSORFLOW_INCLUDE_DIRS}
-	LIBRARIES ${TENSORFLOW_LIBRARIES} python2.7  # yes, we also need to link against python...
+	INCLUDE_DIRS ${tensorflow_ros_INCLUDE_DIRS}
+	LIBRARIES ${tensorflow_ros_LIBRARIES}
 	CFG_EXTRAS tensorflow-extras.cmake  # to add the c++11 compiler flag
 )
 
