@@ -65,7 +65,7 @@ if(NOT ${TENSORFLOW_DIR_FOUND})
     )
   endif()
 
-  if (NOT "${PIP_DIDNT_FIND_TENSORFLOW}" STREQUAL "0")
+  if (NOT "${PIP_SHOW_OUTPUT}" STREQUAL "")
     # parse pip output in case it found tensorflow
     string(REGEX MATCH "Location: [^\r\n]*[\r\n]" TENSORFLOW_LOCATION ${PIP_SHOW_OUTPUT})
     string(REGEX REPLACE "^Location: (.*)[\r\n]$" "\\1" TENSORFLOW_LOCATION2 ${TENSORFLOW_LOCATION})
