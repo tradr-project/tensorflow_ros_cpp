@@ -22,7 +22,7 @@ if(NOT ${TENSORFLOW_DIR_FOUND})
   )
   if(NOT "${PIP_NOT_FOUND}" STREQUAL "0")
     # if pip2.7 is not found, try also pip2
-    if(${TF_PIP_EXECUTABLE} MATCHES '[0-9]\\.[0-9]$')
+    if(${TF_PIP_EXECUTABLE} MATCHES "pip[0-9]\\.[0-9]$")
       string(REGEX REPLACE "pip([0-9])\\.[0-9]$" "pip\\1" TF_PIP_EXECUTABLE2 ${TF_PIP_EXECUTABLE})
       execute_process(
           COMMAND ${TF_PIP_EXECUTABLE2} -V
