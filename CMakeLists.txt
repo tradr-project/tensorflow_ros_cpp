@@ -15,6 +15,10 @@ set(TF_PIP_EXECUTABLE pip${TF_PYTHON_VERSION} CACHE STRING "Path to pip executab
 set(TF_PIP_DISABLE_SEARCH_FOR_GPU_VERSION OFF CACHE BOOL "If ON, tensorflow-gpu will be ignored during the search")
 set(TF_PIP_PATH "" CACHE STRING "Manually defined path to (site|dist)-packages/tensorflow (should not be needed)")
 
+# variables affecting bazel search
+set(TF_BAZEL_LIBRARY "${CATKIN_DEVEL_PREFIX}/../libtensorflow_cc.so" CACHE STRING "Path to the bazel-compiled Tensorflow C++ library")
+set(TF_BAZEL_SRC_DIR "${CATKIN_DEVEL_PREFIX}/../tensorflow-include-base" CACHE STRING "Path to the Tensorflow sources directory")
+
 
 message("-- tensorflow_ros is probing the system")
 
@@ -30,7 +34,7 @@ execute_process(
 		COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/scripts/detect_cxx11_abi.sh ${CMAKE_CXX_COMPILER}
 		RESULT_VARIABLE DETECT_CXX11_ABI_RESULT
 )
-if(${DETECT_CXX11_ABI_RESULT} EQUAL 0)
+if("${DETECT_CXX11_ABI_RESULT}" STREQUAL "0")
 	set(SYSTEM_USES_CXX11_ABI 1 CACHE BOOL "Whether the system uses C++11 ABI")
 	message("-- - The system uses C++11 ABI, the use of tensorflow from pip is possible, but problematic; consider compiling tensorflow yourself")
 else()
@@ -42,6 +46,12 @@ endif()
 
 set(HAS_TENSORFLOW_GPU 0)
 set(TENSORFLOW_FOUND 0)
+
+set(tensorflow_ros_INCLUDE_DIRS "")
+set(tensorflow_ros_LIBRARIES "")
+set(tensorflow_ros_DEPENDS "")
+set(tensorflow_ros_CATKIN_DEPENDS "")
+set(tensorflow_ros_TARGETS "")
 
 # 1. PIP
 
@@ -69,7 +79,7 @@ else()
 	if(${DISABLE_TF_BAZEL_SEARCH})
 		message("-- - Not searching for Tensorflow compiled by bazel, it is disabled.")
 	else()
-		message("-- - Not searching for Tensorflow compiled by bazel since pip-installed Tensorflow was found. Set FORCE_TF_BAZEL_SEARCH to force the search.")
+		message("-- - Not searching for Tensorflow compiled by bazel since Tensorflow has already been found. Set FORCE_TF_BAZEL_SEARCH to force the search.")
 	endif()
 endif()
 
@@ -79,6 +89,8 @@ message(${tensorflow_ros_LIBRARIES})  # TODO remove
 catkin_package(
 	INCLUDE_DIRS ${tensorflow_ros_INCLUDE_DIRS}
 	LIBRARIES ${tensorflow_ros_LIBRARIES}
+	DEPENDS ${tensorflow_ros_DEPENDS}
+	CATKIN_DEPENDS ${tensorflow_ros_CATKIN_DEPENDS}
 	CFG_EXTRAS tensorflow-extras.cmake  # to add the c++11 compiler flag
 )
 

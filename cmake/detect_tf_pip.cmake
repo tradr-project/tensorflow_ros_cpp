@@ -1,11 +1,12 @@
 # try finding tensorflow with pip
 
 # find the tensorflow path using some heuristics
+set(TENSORFLOW_DIR_FOUND 0)
 
 if(NOT ${TF_PIP_PATH} STREQUAL "")
   if(EXISTS ${TF_PIP_PATH})
     set(TENSORFLOW_PATH "${TF_PIP_PATH}")
-    set(TENSORFLOW_FOUND 1)
+    set(TENSORFLOW_DIR_FOUND 1)
     message("-- -- Found user-specified tensorflow pip direcotry: ${TF_PIP_PATH}")
   else()
     message(WARNING "-- -- User-specified tensorflow pip directory from TF_PIP_PATH not found: ${TF_PIP_PATH}")
@@ -13,17 +14,16 @@ if(NOT ${TF_PIP_PATH} STREQUAL "")
 endif()
 
 # search in pip
-if(NOT ${TENSORFLOW_FOUND})
+if(NOT ${TENSORFLOW_DIR_FOUND})
   execute_process(
       COMMAND ${TF_PIP_EXECUTABLE} -V
       RESULT_VARIABLE PIP_NOT_FOUND
       OUTPUT_VARIABLE PIP_VERSION_OUTPUT
   )
-  if(${PIP_NOT_FOUND})
+  if(NOT "${PIP_NOT_FOUND}" STREQUAL "0")
     message(WARNING "${TF_PIP_EXECUTABLE} not found, please install python-pip or python3-pip")
     return()
   endif()
-
   string(REGEX REPLACE "^pip ([0-9.]+) .*$" "\\1" PIP_VERSION ${PIP_VERSION_OUTPUT})
   if(${PIP_VERSION} VERSION_LESS "9.0.0")
     message(WARNING "-- -- ${TF_PIP_EXECUTABLE} version is ${PIP_VERSION}, which is too old for Tensorflow. Run '${TF_PIP_EXECUTABLE} install --upgrade pip'.")
@@ -43,7 +43,7 @@ if(NOT ${TENSORFLOW_FOUND})
   endif()
 
   # try tensorflow
-  if(${PIP_DIDNT_FIND_TENSORFLOW})
+  if(NOT "${PIP_DIDNT_FIND_TENSORFLOW}" STREQUAL "0")
     execute_process(
         COMMAND ${TF_PIP_EXECUTABLE} show tensorflow
         RESULT_VARIABLE PIP_DIDNT_FIND_TENSORFLOW
@@ -51,12 +51,12 @@ if(NOT ${TENSORFLOW_FOUND})
     )
   endif()
 
-  if (NOT ${PIP_DIDNT_FIND_TENSORFLOW})
+  if (NOT "${PIP_DIDNT_FIND_TENSORFLOW}" STREQUAL "0")
     # parse pip output in case it found tensorflow
     string(REGEX MATCH "Location: [^\r\n]*[\r\n]" TENSORFLOW_LOCATION ${PIP_SHOW_OUTPUT})
     string(REGEX REPLACE "^Location: (.*)[\r\n]$" "\\1" TENSORFLOW_LOCATION2 ${TENSORFLOW_LOCATION})
     set(TENSORFLOW_PATH "${TENSORFLOW_LOCATION2}/tensorflow")
-    set(TENSORFLOW_FOUND 1)
+    set(TENSORFLOW_DIR_FOUND 1)
     message("-- -- Found pip-installed tensorflow: ${TENSORFLOW_PATH}")
   else()
     # try finding tensorflow on the PYTHON_PACKAGE_PATH and a few other system paths
@@ -72,13 +72,13 @@ if(NOT ${TENSORFLOW_FOUND})
         )
     if(NOT ${TENSORFLOW_LOCATION} MATCHES NOTFOUND)
       set(TENSORFLOW_PATH "${TENSORFLOW_LOCATION}/tensorflow")
-      set(TENSORFLOW_FOUND 1)
+      set(TENSORFLOW_DIR_FOUND 1)
       message("-- -- Found tensorflow: ${TENSORFLOW_PATH}")
     endif()
   endif()
 endif()
 
-if(NOT ${TENSORFLOW_FOUND})
+if(NOT ${TENSORFLOW_DIR_FOUND})
   message(WARNING "-- -- Tensorflow could not be found via pip. Try installing it manually using 'pip${TF_PYTHON_VERSION} install --user tensorflow', or set the TENSORFLOW_PATH environment variable to point to the *dist-pacakges/tensorflow directory.")
   return()
 endif()
@@ -106,7 +106,7 @@ if(NOT EXISTS ${TENSORFLOW_LIBRARY})
       RESULT_VARIABLE LINK_FAILED
       OUTPUT_QUIET
   )
-  if(NOT LINK_FAILED)
+  if("${LINK_FAILED}" STREQUAL "0")
     message("-- -- Created tensorflow library link ${TENSORFLOW_ORIG_LIBRARY} -> ${TENSORFLOW_LIBRARY}.")
   else()
     message(WARNING "-- -- Could not create symlink from ${TENSORFLOW_ORIG_LIBRARY} -> ${TENSORFLOW_LIBRARY}.")
@@ -140,7 +140,7 @@ if(EXISTS ${TENSORFLOW_FRAMEWORK_ORIG_LIBRARY})
         RESULT_VARIABLE LINK_FAILED
         OUTPUT_QUIET
     )
-    if(NOT LINK_FAILED)
+    if("${LINK_FAILED}" STREQUAL "0")
       message("-- -- Created tensorflow library link ${TENSORFLOW_FRAMEWORK_ORIG_LIBRARY} -> ${TENSORFLOW_FRAMEWORK_LIBRARY}.")
     else()
       message(WARNING "-- -- Could not create symlink from ${TENSORFLOW_FRAMEWORK_ORIG_LIBRARY} -> ${TENSORFLOW_FRAMEWORK_LIBRARY}.")
@@ -166,5 +166,6 @@ if (EXISTS ${TENSORFLOW_PATH}/include/external/nsync/public)
   list(APPEND TENSORFLOW_INCLUDE_DIRS ${TENSORFLOW_PATH}/include/external/nsync/public)
 endif()
 
+set(TENSORFLOW_FOUND 1)
 set(tensorflow_ros_INCLUDE_DIRS ${TENSORFLOW_INCLUDE_DIRS})
 set(tensorflow_ros_LIBRARIES ${TENSORFLOW_LIBRARIES})
