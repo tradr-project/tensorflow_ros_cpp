@@ -152,13 +152,12 @@ if(EXISTS ${TENSORFLOW_FRAMEWORK_ORIG_LIBRARY})
 endif()
 
 find_package(PythonLibs ${TF_PYTHON_VERSION})
-find_package(PythonInterp ${TF_PYTHON_VERSION})
-if (NOT ${PythonLibs_FOUND} OR NOT ${PythonInterp_FOUND})
+if (NOT ${PYTHONLIBS_FOUND})
   message(WARNING "-- -- Could not find python${TF_PYTHON_VERSION} development libraries, install python${TF_PYTHON_VERSION}-dev")
   return()
 endif()
 
-list(APPEND TENSORFLOW_LIBRARIES ${PythonLibs_LIBRARIES})
+list(APPEND TENSORFLOW_LIBRARIES ${PYTHON_LIBRARIES})
 
 set(TENSORFLOW_INCLUDE_DIRS ${TENSORFLOW_PATH}/include)
 # Added in tensorflow 1.4.0
