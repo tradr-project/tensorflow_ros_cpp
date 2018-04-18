@@ -165,6 +165,10 @@ if (EXISTS ${TENSORFLOW_PATH}/include/external/nsync/public)
   list(APPEND TENSORFLOW_INCLUDE_DIRS ${TENSORFLOW_PATH}/include/external/nsync/public)
 endif()
 
+if(${SYSTEM_USES_CXX11_ABI})
+  message(WARNING "-- -- Tensorflow library and system C++ ABI differ. You should consider building Tensorflow yourself. In case you still want to use the python TF library, itcan only be used from targets that do not link to any system libraries that have a C++ API (e.g. a method with std::string argument). Your library using Tensorflow must expose all methods using a C API, or a limited C++ API with only primitive data types (numerics, arrays, chars, but not std::vectors or std::strings). See the kinetic-devel branch of github.com/tradr-project/tensorflow_ros_test for an example.")
+endif()
+
 set(TENSORFLOW_FOUND 1)
 set(tensorflow_ros_INCLUDE_DIRS ${TENSORFLOW_INCLUDE_DIRS})
 set(tensorflow_ros_LIBRARIES ${TENSORFLOW_LIBRARIES})
