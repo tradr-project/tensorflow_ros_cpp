@@ -150,7 +150,7 @@ execute_process(
     COMMAND ldd ${TENSORFLOW_LIBRARY}
     OUTPUT_VARIABLE LDD_OUTPUT
 )
-if(${LDD_OUTPUT} MATCHES "libcuda.so")
+if(${LDD_OUTPUT} MATCHES "libcudart.so")
   set(HAS_TENSORFLOW_GPU 1)
   message("-- -- The Tensorflow library is compiled with CUDA support.")
 else()
