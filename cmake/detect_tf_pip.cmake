@@ -40,7 +40,7 @@ if(NOT ${TENSORFLOW_DIR_FOUND})
   endif()
   string(REGEX REPLACE "^pip ([0-9.]+) .*$" "\\1" PIP_VERSION ${PIP_VERSION_OUTPUT})
   if(${PIP_VERSION} VERSION_LESS "9.0.0")
-    message(WARNING "-- -- ${TF_PIP_EXECUTABLE} version is ${PIP_VERSION}, which is too old for Tensorflow. Run '${TF_PIP_EXECUTABLE} install --upgrade pip'.")
+    message(WARNING "-- -- ${TF_PIP_EXECUTABLE} version is ${PIP_VERSION}, which is too old for Tensorflow. Run 'sudo ${TF_PIP_EXECUTABLE} install --upgrade pip'.")
     return()
   else()
     message("-- -- Found pip version ${PIP_VERSION}")
@@ -93,7 +93,7 @@ if(NOT ${TENSORFLOW_DIR_FOUND})
 endif()
 
 if(NOT ${TENSORFLOW_DIR_FOUND})
-  message(WARNING "-- -- Tensorflow could not be found via pip. Try installing it manually using 'pip${TF_PYTHON_VERSION} install --user tensorflow', or set the TENSORFLOW_PATH environment variable to point to the *dist-pacakges/tensorflow directory.")
+  message(WARNING "-- -- Tensorflow could not be found via pip. Try installing it manually using 'sudo pip${TF_PYTHON_VERSION} install tensorflow' or 'pip${TF_PYTHON_VERSION} install --user tensorflow', or set the TENSORFLOW_PATH environment variable to point to the *dist-pacakges/tensorflow directory.")
   return()
 endif()
 
@@ -112,6 +112,7 @@ else()
   return()
 endif()
 
+# make a link to the library inside the devel directory so that we don't have to pass along the library dir
 set(TENSORFLOW_LIBRARY ${CATKIN_DEVEL_PREFIX}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}_pywrap_tensorflow${CMAKE_SHARED_LIBRARY_SUFFIX})
 if(NOT EXISTS ${TENSORFLOW_LIBRARY})
   file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/lib)
@@ -124,6 +125,23 @@ if(NOT EXISTS ${TENSORFLOW_LIBRARY})
     message("-- -- Created tensorflow library link ${TENSORFLOW_ORIG_LIBRARY} -> ${TENSORFLOW_LIBRARY}.")
   else()
     message(WARNING "-- -- Could not create symlink from ${TENSORFLOW_ORIG_LIBRARY} -> ${TENSORFLOW_LIBRARY}.")
+    return()
+  endif()
+endif()
+
+# make a link to the library also under the original name, since some linkers take the SONAME as the name they link to
+get_filename_component(TENSORFLOW_ORIG_LIBRARY_NAME ${TENSORFLOW_ORIG_LIBRARY} NAME)
+set(TENSORFLOW_LIBRARY2 ${CATKIN_DEVEL_PREFIX}/lib/${TENSORFLOW_ORIG_LIBRARY_NAME})
+if(NOT EXISTS ${TENSORFLOW_LIBRARY2})
+  execute_process(
+      COMMAND ln -s ${TENSORFLOW_ORIG_LIBRARY} ${TENSORFLOW_LIBRARY2}
+      RESULT_VARIABLE LINK_FAILED
+      OUTPUT_QUIET
+  )
+  if("${LINK_FAILED}" STREQUAL "0")
+    message("-- -- Created tensorflow library link ${TENSORFLOW_ORIG_LIBRARY} -> ${TENSORFLOW_LIBRARY2}.")
+  else()
+    message(WARNING "-- -- Could not create symlink from ${TENSORFLOW_ORIG_LIBRARY} -> ${TENSORFLOW_LIBRARY2}.")
     return()
   endif()
 endif()
