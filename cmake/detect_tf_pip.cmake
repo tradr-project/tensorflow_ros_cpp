@@ -21,8 +21,22 @@ if(NOT ${TENSORFLOW_DIR_FOUND})
       OUTPUT_VARIABLE PIP_VERSION_OUTPUT
   )
   if(NOT "${PIP_NOT_FOUND}" STREQUAL "0")
-    message(WARNING "${TF_PIP_EXECUTABLE} not found, please install python-pip or python3-pip")
-    return()
+    # if pip2.7 is not found, try also pip2
+    if(${TF_PIP_EXECUTABLE} MATCHES '[0-9]\\.[0-9]$')
+      string(REGEX REPLACE "pip([0-9])\\.[0-9]$" "pip\\1" TF_PIP_EXECUTABLE2 ${TF_PIP_EXECUTABLE})
+      execute_process(
+          COMMAND ${TF_PIP_EXECUTABLE2} -V
+          RESULT_VARIABLE PIP_NOT_FOUND
+          OUTPUT_VARIABLE PIP_VERSION_OUTPUT
+      )
+      if("${PIP_NOT_FOUND}" STREQUAL "0")
+        set(TF_PIP_EXECUTABLE ${TF_PIP_EXECUTABLE2})
+      endif()
+    endif()
+    if(NOT "${PIP_NOT_FOUND}" STREQUAL "0")
+      message(WARNING "${TF_PIP_EXECUTABLE} not found, please install python-pip or python3-pip")
+      return()
+    endif()
   endif()
   string(REGEX REPLACE "^pip ([0-9.]+) .*$" "\\1" PIP_VERSION ${PIP_VERSION_OUTPUT})
   if(${PIP_VERSION} VERSION_LESS "9.0.0")
