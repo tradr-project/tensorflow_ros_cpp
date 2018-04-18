@@ -2,17 +2,19 @@ set(TF_BAZEL_LIBRARY ${CATKIN_DEVEL_PREFIX}/libtensorflow_cc.so)
 if(EXISTS ${TF_BAZEL_LIBRARY})
   message("-- -- Found bazel-compiled libtensorflow_cc.so, using it.")
   set(TENSORFLOW_LIBRARY ${CATKIN_DEVEL_PREFIX}/lib/libtensorflow_cc.so)
-  file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/lib)
-  execute_process(
-      COMMAND ln -s ${TF_BAZEL_LIBRARY} ${TENSORFLOW_LIBRARY}
-      RESULT_VARIABLE LINK_FAILED
-      OUTPUT_QUIET
-  )
-  if("${LINK_FAILED}" STREQUAL "0")
-    message("-- -- Created tensorflow library link ${TF_BAZEL_LIBRARY} -> ${TENSORFLOW_LIBRARY}.")
-  else()
-    message(WARNING "-- -- Could not create symlink from ${TF_BAZEL_LIBRARY} -> ${TENSORFLOW_LIBRARY}.")
-    return()
+  if(NOT EXISTS ${TENSORFLOW_LIBRARY})
+    file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/lib)
+    execute_process(
+        COMMAND ln -s ${TF_BAZEL_LIBRARY} ${TENSORFLOW_LIBRARY}
+        RESULT_VARIABLE LINK_FAILED
+        OUTPUT_QUIET
+    )
+    if("${LINK_FAILED}" STREQUAL "0")
+      message("-- -- Created tensorflow library link ${TF_BAZEL_LIBRARY} -> ${TENSORFLOW_LIBRARY}.")
+    else()
+      message(WARNING "-- -- Could not create symlink from ${TF_BAZEL_LIBRARY} -> ${TENSORFLOW_LIBRARY}.")
+      return()
+    endif()
   endif()
   set(TENSORFLOW_LIBRARIES tensorflow_cc)
   set(TENSORFLOW_TARGETS ${TENSORFLOW_LIBRARY})
