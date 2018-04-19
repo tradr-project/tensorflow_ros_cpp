@@ -6,16 +6,23 @@ A catkin-friendly package for utilizing the C++ API of tensorflow.
 
 This library was tested on Ubuntu 14.04 64bit with Python 2.7.6, ROS Indigo and the following TF libraries installed via pip:
 
-- tensorflow==1.1.0
-- tensorflow==1.3.0
-- tensorflow==1.4.0
-- tensorflow_gpu==1.1.0
-- tensorflow_gpu==1.3.0
-- tensorflow_gpu==1.4.0
+### Ubuntu 14.04 64bits, Python 2.7.6, ROS Indigo
+
+Version | pip tensorflow | pip tensorflow-gpu | bazel | tensorflow\_catkin | OS, Python, CUDA, CUDNN
+--- | --- | --- | --- | --- | ---
+0.12.1 | <span style="color:green">✓</span>| <span style="color:green">✓</span> | ? | ? | Ubuntu 14.04, 2.7, 8.0, N/A
+1.0.0  | <span style="color:green">✓</span>| <span style="color:green">✓</span> | ? | ? | Ubuntu 14.04, 2.7, 8.0, N/A
+1.1.0  | <span style="color:green">✓</span>| <span style="color:green">✓</span> | ? | ? | Ubuntu 14.04, 2.7, 8.0, 5
+1.2.0  | <span style="color:green">✓</span>| <span style="color:green">✓</span> | ? | ? | Ubuntu 14.04, 2.7, 8.0, 5
+1.3.0  | <span style="color:green">✓</span>| <span style="color:green">✓</span> | ? | ? | Ubuntu 14.04, 2.7, 8.0, 6
+1.4.0  | <span style="color:green">✓</span>| <span style="color:red">not supported</span> | ? | ? | Ubuntu 14.04, 2.7, 8.0, 6
+1.5.0  | <span style="color:green">✓</span>| <span style="color:red">not supported</span> | ? | ? | Ubuntu 14.04, 2.7, 8.0, 6
+1.6.0  | <span style="color:green">✓</span>| <span style="color:red">not supported</span> | ? | ? | Ubuntu 14.04, 2.7, 8.0, 6
+1.7.0  | <span style="color:green">✓</span>| <span style="color:red">not supported</span> | ? | ? | Ubuntu 14.04, 2.7, 8.0, 6
 
 ## Prerequisites
 
-This package assumes tensorflow python package is installed. Ideally via pip, but custom installs are also supported (it they're either on PYTHON\_PACKAGE\_PATH or if you manually specify environment variable TENSORFLOW\_PATH).
+This package assumes tensorflow python package is installed. Ideally via pip, but custom installs are also supported (if they're either on PYTHON\_PACKAGE\_PATH or if you manually specify environment variable TENSORFLOW\_PATH).
 
 You also need to compile it using a more recent compiler that supports C++11. The default compiler on Ubuntu Trusty can't do that. You can install a conforming GCC 4.9 using these commands (but be aware that it can cause you some trouble with older programs in the worst case):
 

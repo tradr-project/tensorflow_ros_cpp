@@ -6,8 +6,10 @@ find_package(catkin REQUIRED)
 # variables affecting the search for the tensorflow library
 set(FORCE_TF_PIP_SEARCH OFF CACHE BOOL "Whether to search for pip-installed Tensorflow even on systems using C++11 ABI")
 set(DISABLE_TF_PIP_SEARCH OFF CACHE BOOL "Whether to skip search for pip-installed Tensorflow")
-set(FORCE_TF_BAZEL_SEARCH OFF CACHE BOOL "Whether to search for bazel-compiled Tensorflow even if pip-installed tensorflow was found")
+set(FORCE_TF_BAZEL_SEARCH OFF CACHE BOOL "Whether to search for bazel-compiled Tensorflow even if tensorflow was already found")
 set(DISABLE_TF_BAZEL_SEARCH OFF CACHE BOOL "Whether to skip search for bazel-compiled Tensorflow")
+set(FORCE_TF_CATKIN_SEARCH OFF CACHE BOOL "Whether to search for tensorflow_catkin even if tensorflow was already found")
+set(DISABLE_TF_CATKIN_SEARCH OFF CACHE BOOL "Whether to skip search for tensorflow_catkin")
 
 # variables affecting pip search
 set(TF_PYTHON_VERSION 2.7 CACHE STRING "Python version to be used for searching for Tensorflow")
@@ -81,6 +83,21 @@ else()
 		message("-- - Not searching for Tensorflow compiled by bazel, it is disabled.")
 	else()
 		message("-- - Not searching for Tensorflow compiled by bazel since Tensorflow has already been found. Set FORCE_TF_BAZEL_SEARCH to force the search.")
+	endif()
+endif()
+
+# 3. tensorflow_catkin
+
+if((NOT ${TENSORFLOW_FOUND} OR ${FORCE_TF_CATKIN_SEARCH}) AND NOT ${DISABLE_TF_CATKIN_SEARCH})
+	message("-- - Trying to find Tensorflow from tensorflow_catkin")
+
+	include(cmake/detect_tf_catkin.cmake)
+
+else()
+	if(${DISABLE_TF_CATKIN_SEARCH})
+		message("-- - Not searching for Tensorflow from tensorflow_catkin, it is disabled.")
+	else()
+		message("-- - Not searching for Tensorflow from tensorflow_catkin since Tensorflow has already been found. Set FORCE_TF_CATKIN_SEARCH to force the search.")
 	endif()
 endif()
 

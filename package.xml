@@ -13,7 +13,8 @@
   <build_depend>python</build_depend>
   <build_export_depend>python</build_export_depend>
 
-  <build_depend>python-pip</build_depend>
+  <build_depend>python-pip</build_depend> <!-- optional -->
 
-  <depend>python-tensorflow-pip</depend>
+  <depend>python-tensorflow-pip</depend> <!-- optional -->
+  <depend>tensorflow_catkin</depend> <!-- optional -->
 </package>
