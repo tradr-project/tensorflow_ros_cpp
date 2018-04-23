@@ -20,6 +20,7 @@ set(TF_PIP_PATH "" CACHE STRING "Manually defined path to (site|dist)-packages/t
 # variables affecting bazel search
 set(TF_BAZEL_LIBRARY "${CATKIN_DEVEL_PREFIX}/../libtensorflow_cc.so" CACHE STRING "Path to the bazel-compiled Tensorflow C++ library")
 set(TF_BAZEL_SRC_DIR "${CATKIN_DEVEL_PREFIX}/../tensorflow-include-base" CACHE STRING "Path to the Tensorflow sources directory")
+set(TF_BAZEL_USE_SYSTEM_PROTOBUF OFF CACHE BOOL "Whether to use system-installed protobuf includes or those distributed with Tensorflow")
 
 
 message("-- tensorflow_ros is probing the system")
@@ -100,9 +101,6 @@ else()
 		message("-- - Not searching for Tensorflow from tensorflow_catkin since Tensorflow has already been found. Set FORCE_TF_CATKIN_SEARCH to force the search.")
 	endif()
 endif()
-
-message(${tensorflow_ros_INCLUDE_DIRS})  # TODO remove
-message(${tensorflow_ros_LIBRARIES})  # TODO remove
 
 catkin_package(
 	INCLUDE_DIRS ${tensorflow_ros_INCLUDE_DIRS}

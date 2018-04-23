@@ -1,4 +1,3 @@
-set(TF_BAZEL_LIBRARY ${CATKIN_DEVEL_PREFIX}/libtensorflow_cc.so)
 if(EXISTS ${TF_BAZEL_LIBRARY})
   message("-- -- Found bazel-compiled libtensorflow_cc.so, using it.")
   set(TENSORFLOW_LIBRARY ${CATKIN_DEVEL_PREFIX}/lib/libtensorflow_cc.so)
@@ -23,10 +22,27 @@ else()
   return()
 endif()
 
-set(TF_BAZEL_SRC_DIR ${CATKIN_DEVEL_PREFIX}/tensorflow-include-base)
 if(EXISTS ${TF_BAZEL_SRC_DIR})
   message("-- -- Found Tensorflow sources dir ${TF_BAZEL_SRC_DIR}.")
   set(TENSORFLOW_INCLUDE_DIRS ${TF_BAZEL_SRC_DIR}/bazel-genfiles ${TF_BAZEL_SRC_DIR})
+  if(NOT ${TF_BAZEL_USE_SYSTEM_PROTOBUF})
+    list(APPEND TENSORFLOW_INCLUDE_DIRS ${TF_BAZEL_SRC_DIR}/bazel-tensorflow/external/protobuf_archive/src)
+  endif()
+
+  # detect protoc version
+  set(TF_BAZEL_PROTOC_DIR ${TF_BAZEL_SRC_DIR}/bazel-out/host/bin/external/protobuf_archive)
+  set(TF_BAZEL_PROTOC ${TF_BAZEL_PROTOC_DIR}/protoc)
+  execute_process(
+      COMMAND ${TF_BAZEL_PROTOC} --version
+      RESULT_VARIABLE PROTOC_FAILED
+      OUTPUT_VARIABLE PROTOC_VERSION_OUTPUT
+  )
+  if(NOT "${PROTOC_FAILED}" STREQUAL "0")
+    message(WARNING "Compiled version of protoc not found.")
+    return()
+  endif()
+  message("Using protobuf compiler ${PROTOC_VERSION_OUTPUT}, you should compile your code with the same version of protoc.")
+  message("You can do it by using 'export PATH=${TF_BAZEL_PROTOC_DIR}:\$PATH'")
 
   # Nsync
   # bazel-tensorflow is a symlink to ~/.cache/bazel/_bazel_USER/HASH/execroot/org_tensorflow
