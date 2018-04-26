@@ -102,6 +102,10 @@ else()
 	endif()
 endif()
 
+if(NOT ${TENSORFLOW_FOUND})
+  message(FATAL "Tensorflow was not found")
+endif()
+
 catkin_package(
 	INCLUDE_DIRS ${tensorflow_ros_INCLUDE_DIRS}
 	LIBRARIES ${tensorflow_ros_LIBRARIES}
