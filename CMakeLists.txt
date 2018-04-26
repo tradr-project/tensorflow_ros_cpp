@@ -103,7 +103,7 @@ else()
 endif()
 
 if(NOT ${TENSORFLOW_FOUND})
-  message(FATAL "Tensorflow was not found")
+  message(FATAL_ERROR "Tensorflow was not found")
 endif()
 
 catkin_package(
