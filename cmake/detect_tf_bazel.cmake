@@ -4,7 +4,7 @@ if(EXISTS ${TF_BAZEL_LIBRARY})
   if(NOT EXISTS ${TENSORFLOW_LIBRARY})
     file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/lib)
     execute_process(
-        COMMAND ln -s ${TF_BAZEL_LIBRARY} ${TENSORFLOW_LIBRARY}
+        COMMAND ln -sf ${TF_BAZEL_LIBRARY} ${TENSORFLOW_LIBRARY}
         RESULT_VARIABLE LINK_FAILED
         OUTPUT_QUIET
     )
@@ -38,6 +38,12 @@ if(EXISTS ${TF_BAZEL_SRC_DIR})
   endif()
   list(APPEND TENSORFLOW_INCLUDE_DIRS ${BAZEL_TF_DIR}/external/eigen_archive)
   list(APPEND TENSORFLOW_INCLUDE_DIRS ${BAZEL_TF_DIR}/external/nsync/public)
+
+  if(${HAS_TENSORFLOW_GPU})
+    message("-- -- The Tensorflow library is compiled with CUDA support.")
+  else()
+    message("-- -- The Tensorflow library is compiled without CUDA support.")
+  endif()
 
   # detect protoc version
   set(TF_BAZEL_PROTOC_DIR ${TF_BAZEL_SRC_DIR}/bazel-out/host/bin/external/protobuf_archive)
