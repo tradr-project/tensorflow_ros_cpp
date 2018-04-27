@@ -7,14 +7,26 @@ endif()
 
 message("-- -- Found tensorflow_catkin")
 
-if(${tensorflow_catkin_LIBRARIES} MATCHES "cudart")
-  set(HAS_TENSORFLOW_GPU 1)
+set(HAS_TENSORFLOW_GPU 0)
+foreach(lib IN LISTS tensorflow_catkin_LIBRARIES)
+  if(NOT "${lib}" MATCHES "^/")
+    find_library(lib ${lib} PATHS ${tensorflow_catkin_LIBRARY_DIRS})
+  endif()
+  execute_process(
+      COMMAND ldd "${lib}"
+      OUTPUT_VARIABLE LDD_OUTPUT
+  )
+  if(${LDD_OUTPUT} MATCHES "libcudart.so")
+    set(HAS_TENSORFLOW_GPU 1)
+    break()
+  endif()
+endforeach()
+
+if(${HAS_TENSORFLOW_GPU})
   message("-- -- The Tensorflow library is compiled with CUDA support.")
 else()
-  set(HAS_TENSORFLOW_GPU 0)
   message("-- -- The Tensorflow library is compiled without CUDA support.")
 endif()
-
 
 # cuSOLVER from CUDA >= 8.0 requires OpenMP
 set(ADDITIONAL_LIBS "")
