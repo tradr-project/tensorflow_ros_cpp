@@ -25,11 +25,19 @@ endif()
 if(EXISTS ${TF_BAZEL_SRC_DIR})
   message("-- -- Found Tensorflow sources dir ${TF_BAZEL_SRC_DIR}.")
   set(TENSORFLOW_INCLUDE_DIRS ${TF_BAZEL_SRC_DIR}/bazel-genfiles ${TF_BAZEL_SRC_DIR})
-  if(NOT ${TF_BAZEL_USE_SYSTEM_PROTOBUF})
-    list(APPEND TENSORFLOW_INCLUDE_DIRS ${TF_BAZEL_SRC_DIR}/bazel-tensorflow/external/protobuf_archive/src)
+
+  set(BAZEL_TF_DIR ${TF_BAZEL_SRC_DIR}/bazel-tensorflow)
+  set(HAS_TENSORFLOW_GPU 0)
+  if(NOT EXISTS ${BAZEL_TF_DIR})
+    set(BAZEL_TF_DIR ${TF_BAZEL_SRC_DIR}/bazel-tensorflow-gpu)
+    set(HAS_TENSORFLOW_GPU 1)
   endif()
-  list(APPEND TENSORFLOW_INCLUDE_DIRS ${TF_BAZEL_SRC_DIR}/bazel-tensorflow/external/eigen_archive)
-  list(APPEND TENSORFLOW_INCLUDE_DIRS ${TF_BAZEL_SRC_DIR}/bazel-tensorflow/external/nsync/public)
+
+  if(NOT ${TF_BAZEL_USE_SYSTEM_PROTOBUF})
+    list(APPEND TENSORFLOW_INCLUDE_DIRS ${BAZEL_TF_DIR}/external/protobuf_archive/src)
+  endif()
+  list(APPEND TENSORFLOW_INCLUDE_DIRS ${BAZEL_TF_DIR}/external/eigen_archive)
+  list(APPEND TENSORFLOW_INCLUDE_DIRS ${BAZEL_TF_DIR}/external/nsync/public)
 
   # detect protoc version
   set(TF_BAZEL_PROTOC_DIR ${TF_BAZEL_SRC_DIR}/bazel-out/host/bin/external/protobuf_archive)
