@@ -27,20 +27,29 @@ If you successfully used this package on an untested configuration (marked with 
 
 Version | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (GPU) | tensorflow\_catkin (CPU) | tensorflow\_catkin (GPU) | CUDNN version
 --- | --- | --- | --- | --- | --- | --- | ---
-0.12.1 | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">not supported</span> | <span style="color:red">not supported</span> | N/A
-1.0.0  | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">not supported</span> | <span style="color:red">not supported</span> | N/A
-1.1.0  | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">not supported</span> | <span style="color:red">not supported</span> | 5
-1.2.0  | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">not supported</span> | <span style="color:red">not supported</span> | 5
-1.3.0  | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">not supported</span> | <span style="color:red">not supported</span> | 6
-1.4.0  | <span style="color:green">✓</span> | <span style="color:red">not supported</span> | ? | ? | <span style="color:red">not supported</span> | <span style="color:red">not supported</span> | 6
-1.5.0  | <span style="color:green">✓</span> | <span style="color:red">not supported</span> | ? | ? | <span style="color:red">not supported</span> | <span style="color:red">not supported</span> | 6
-1.6.0  | <span style="color:green">✓</span> | <span style="color:red">not supported</span> | ? | ? | <span style="color:red">not supported</span> | <span style="color:red">not supported</span> | 6
-1.7.0  | <span style="color:green">✓</span> | <span style="color:red">not supported</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | 6
+0.12.1 | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | no
+1.0.0  | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | no
+1.1.0  | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 5
+1.2.0  | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 5
+1.3.0  | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 6
+1.4.0  | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9+)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 6
+1.5.0  | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9+)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 6
+1.6.0  | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9+)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 6
+1.7.0  | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9+)</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | 6
 
 ### Ubuntu 16.04 64bits, Python 2.7.6, ROS Kinetic
 
 Version | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (GPU) | tensorflow\_catkin (CPU) | tensorflow\_catkin (GPU) | CUDA, CUDNN
 --- | --- | --- | --- | --- | --- | --- | ---
+0.12.1| <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 8.0, no
+1.0.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 8.0, 5.0
+1.1.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 8.0, 5.0
+1.2.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 8.0, 5.0
+1.3.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 8.0, 6.0
+1.4.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 8.0, 6.0
+1.5.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 9.0, 7.0
+1.6.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 9.0, 7.0
+1.7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:green">✓</span> | <span style="color:green">✓</span> | 9.0, 7.0
 
 ### Ubuntu 18.04 64bits, Python 2.7.6, ROS Melodic
 
