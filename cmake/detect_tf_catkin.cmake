@@ -7,6 +7,7 @@ endif()
 
 message("-- -- Found tensorflow_catkin")
 
+# detect if it has GPU support
 set(HAS_TENSORFLOW_GPU 0)
 foreach(lib IN LISTS tensorflow_catkin_LIBRARIES)
   if(NOT "${lib}" MATCHES "^/")
@@ -16,7 +17,7 @@ foreach(lib IN LISTS tensorflow_catkin_LIBRARIES)
       COMMAND ldd "${lib}"
       OUTPUT_VARIABLE LDD_OUTPUT
   )
-  if(${LDD_OUTPUT} MATCHES "libcudart.so")
+  if(${LDD_OUTPUT} MATCHES "libcuda.so")
     set(HAS_TENSORFLOW_GPU 1)
     break()
   endif()
@@ -32,7 +33,8 @@ endif()
 set(ADDITIONAL_LIBS "")
 if(${HAS_TENSORFLOW_GPU})
   if (CMAKE_CXX_COMPILER_ID MATCHES "GNU" )
-    set(ADDITIONAL_LIBS gomp)
+    find_library(gomp_LIBRARY gomp PATHS ${tensorflow_catkin_LIBRARY_DIRS})
+    set(ADDITIONAL_LIBS ${gomp_LIBRARY})
   endif()
 endif()
 
@@ -40,3 +42,6 @@ set(TENSORFLOW_FOUND 1)
 set(tensorflow_ros_INCLUDE_DIRS ${tensorflow_catkin_INCLUDE_DIRS} ${tensorflow_catkin_INCLUDE_DIRS}/external/nsync/public)
 set(tensorflow_ros_LIBRARIES ${tensorflow_catkin_LIBRARIES} ${ADDITIONAL_LIBS})
 set(tensorflow_ros_CATKIN_DEPENDS tensorflow_catkin)
+if(${HAS_TENSORFLOW_GPU})
+  set(tensorflow_ros_DEPENDS libgomp1)
+endif()
