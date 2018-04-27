@@ -49,7 +49,7 @@ Version | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (GPU) | tens
 1.4.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 8.0, 6.0
 1.5.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 9.0, 7.0
 1.6.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 9.0, 7.0
-1.7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:green">✓</span> | ? | <span style="color:green">✓</span> | <span style="color:green">✓</span> | 9.0, 7.0
+1.7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | 9.0, 7.0
 
 ### Ubuntu 18.04 64bits, Python 2.7.6, ROS Melodic
 
