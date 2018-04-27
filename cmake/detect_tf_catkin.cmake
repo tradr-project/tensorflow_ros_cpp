@@ -7,9 +7,18 @@ endif()
 
 message("-- -- Found tensorflow_catkin")
 
+if(${tensorflow_catkin_LIBRARIES} MATCHES "cudart")
+  set(HAS_TENSORFLOW_GPU 1)
+  message("-- -- The Tensorflow library is compiled with CUDA support.")
+else()
+  set(HAS_TENSORFLOW_GPU 0)
+  message("-- -- The Tensorflow library is compiled without CUDA support.")
+endif()
+
+
 # cuSOLVER from CUDA >= 8.0 requires OpenMP
 set(ADDITIONAL_LIBS "")
-if(NOT (${CUDA_VERSION_MAJOR} LESS 8))
+if(${HAS_TENSORFLOW_GPU})
   if (CMAKE_CXX_COMPILER_ID MATCHES "GNU" )
     set(ADDITIONAL_LIBS gomp)
   endif()
