@@ -28,6 +28,8 @@ if(EXISTS ${TF_BAZEL_SRC_DIR})
   if(NOT ${TF_BAZEL_USE_SYSTEM_PROTOBUF})
     list(APPEND TENSORFLOW_INCLUDE_DIRS ${TF_BAZEL_SRC_DIR}/bazel-tensorflow/external/protobuf_archive/src)
   endif()
+  list(APPEND TENSORFLOW_INCLUDE_DIRS ${TF_BAZEL_SRC_DIR}/bazel-tensorflow/external/eigen_archive)
+  list(APPEND TENSORFLOW_INCLUDE_DIRS ${TF_BAZEL_SRC_DIR}/bazel-tensorflow/external/nsync/public)
 
   # detect protoc version
   set(TF_BAZEL_PROTOC_DIR ${TF_BAZEL_SRC_DIR}/bazel-out/host/bin/external/protobuf_archive)
@@ -43,14 +45,6 @@ if(EXISTS ${TF_BAZEL_SRC_DIR})
   endif()
   message("-- -- Using protobuf compiler ${PROTOC_VERSION_OUTPUT}, you should compile your code with the same version of protoc.")
   message("-- -- You can do it by using 'export PATH=${TF_BAZEL_PROTOC_DIR}:\$PATH'")
-
-  # Nsync
-  # bazel-tensorflow is a symlink to ~/.cache/bazel/_bazel_USER/HASH/execroot/org_tensorflow
-  get_filename_component(BAZEL_TENSORFLOW_DIR ${TF_BAZEL_SRC_DIR}/bazel-tensorflow REALPATH)
-  # we use bazel-tensorflow to get the path to ~/.cache/bazel/_bazel_USER/HASH/external/nsync/public
-  get_filename_component(NSYNC_DIR ${BAZEL_TENSORFLOW_DIR}/../../external/nsync/public REALPATH)
-  message("-- -- nsync dir is ${NSYNC_DIR}")
-  list(APPEND TENSORFLOW_INCLUDE_DIRS ${NSYNC_DIR})
 else()
   message(WARNING "Tensorflow sources dir ${TF_BAZEL_SRC_DIR} not found.")
   return()
@@ -67,13 +61,6 @@ if(NOT ${Protobuf_FOUND})
   return()
 endif()
 
-find_package(Eigen3)
-if(NOT ${Eigen3_FOUND})
-  message(WARNING "-- -- Eigen3 not found")
-  return()
-endif()
-
 set(TENSORFLOW_FOUND 1)
-set(tensorflow_ros_INCLUDE_DIRS ${TENSORFLOW_INCLUDE_DIRS} ${Protobuf_INCLUDE_DIRS} ${EIGEN3_INCLUDE_DIRS})
+set(tensorflow_ros_INCLUDE_DIRS ${TENSORFLOW_INCLUDE_DIRS} ${Protobuf_INCLUDE_DIRS})
 set(tensorflow_ros_LIBRARIES ${TENSORFLOW_LIBRARIES} ${Protobuf_LIBRARIES})
-set(tensorflow_ros_DEPENDS eigen)
