@@ -39,7 +39,14 @@ if(${HAS_TENSORFLOW_GPU})
 endif()
 
 set(TENSORFLOW_FOUND 1)
-set(tensorflow_ros_INCLUDE_DIRS ${tensorflow_catkin_INCLUDE_DIRS} ${tensorflow_catkin_INCLUDE_DIRS}/external/nsync/public)
+
+set(tensorflow_ros_INCLUDE_DIRS ${tensorflow_catkin_INCLUDE_DIRS})
+if(EXISTS ${tensorflow_catkin_INCLUDE_DIRS}/external/nsync/public)
+  list(APPEND tensorflow_ros_INCLUDE_DIRS ${tensorflow_catkin_INCLUDE_DIRS}/external/nsync/public)
+elseif(NOT EXISTS ${tensorflow_catkin_INCLUDE_DIRS}/nsync.h)
+  message(WARNING "nsync directory not found. This is no problem if you have it system-installed.")
+endif()
+
 set(tensorflow_ros_LIBRARIES ${tensorflow_catkin_LIBRARIES} ${ADDITIONAL_LIBS})
 set(tensorflow_ros_CATKIN_DEPENDS tensorflow_catkin)
 if(${HAS_TENSORFLOW_GPU})

@@ -13,6 +13,7 @@ set(DISABLE_TF_CATKIN_SEARCH OFF CACHE BOOL "Whether to skip search for tensorfl
 
 # variables affecting pip search
 set(TF_PYTHON_VERSION 2.7 CACHE STRING "Python version to be used for searching for Tensorflow")
+set(TF_PYTHON_LIBRARY "" CACHE STRING "Python development library of the interpreter used for the found tensorflow. Use only when find_package finds wrong version of PythonLibs, which might be the case if you want to use Tensorflow from Python3.")
 set(TF_PIP_EXECUTABLE pip${TF_PYTHON_VERSION} CACHE STRING "Path to pip executable used for searching for tensorflow")
 set(TF_PIP_DISABLE_SEARCH_FOR_GPU_VERSION OFF CACHE BOOL "If ON, tensorflow-gpu will be ignored during the search")
 set(TF_PIP_PATH "" CACHE STRING "Manually defined path to (site|dist)-packages/tensorflow (should not be needed)")
