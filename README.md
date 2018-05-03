@@ -50,6 +50,16 @@ Version | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (GPU) | tens
 1.5.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 9.0, 7.0
 1.6.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 9.0, 7.0
 1.7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | 9.0, 7.0
+1.8.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 9.0, 7.0
+
+### Ubuntu 16.04 64bits, Python 3.5, ROS Kinetic
+
+Had to set `TF_PYTHON_LIBRARY` manually since CMake was only finding Python 2.7 libraries.
+
+Version | pip3 tensorflow | pip3 tensorflow-gpu | CUDA, CUDNN
+--- | --- | --- | ---
+1.8.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | 9.0, 7.0
+
 
 ### Ubuntu 18.04 64bits, Python 2.7.6, ROS Melodic
 
@@ -94,6 +104,7 @@ You can change these variables either in the CMake cache file, or from commandli
 - `FORCE_TF_PIP_SEARCH:BOOL` (default `OFF`): Search for the pip-installed Tensorflow even if using a system with C++11 ABI (see below for explanation).
 - `DISABLE_TF_PIP_SEARCH:BOOL` (default `OFF`): Do not search for pip-installed Tensorflow at all.
 - `TF_PYTHON_VERSION:STRING` (default `2.7`): The python version used by the Tensorflow installation.
+- `TF_PYTHON_LIBRARY:STRING` (default `""`): If nonempty, specifies path to libpythonx.y.so. Needed in some cases where CMake finds the wrong library, e.g. when using Python 3 pip.
 - `TF_PIP_EXECUTABLE:STRING` (default `pip${TF_PYTHON_VERSION}`): Path to the `pip` executable that should be used (important to distinguish `pip2` for Python 2 and `pip3` for Python 3).
 - `TF_PIP_DISABLE_SEARCH_FOR_GPU_VERSION:BOOL` (default `OFF`): Only regards the `tensorflow` pip package, even if the GPU version is installed.
 - `TF_PIP_PATH:STRING` (default `""`): If the automated search process fails, manually specify path to the folder `(site|dist)-packages/tensorflow` containing e.g. `python/pywrap_tensorflow.py`.
