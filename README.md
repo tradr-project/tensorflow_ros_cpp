@@ -32,10 +32,20 @@ Version | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (GPU) | tens
 1.1.0  | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 5
 1.2.0  | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 5
 1.3.0  | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 6
-1.4.0  | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9+)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 6
-1.5.0  | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9+)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 6
-1.6.0  | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9+)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 6
-1.7.0  | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9+)</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | 6
+1.4.0  | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 6
+1.5.0  | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 6
+1.6.0  | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 6
+1.7.0  | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | 6
+1.8.0  | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 6
+
+### Ubuntu 14.04 64bits, Python 3.4, ROS Indigo, CUDA 8.0
+
+Had to set `TF_PYTHON_LIBRARY` manually since CMake was only finding Python 2.7 libraries.
+
+Version | pip3 tensorflow | pip3 tensorflow-gpu
+--- | --- | ---
+1.8.0  | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)
+
 
 ### Ubuntu 16.04 64bits, Python 2.7.6, ROS Kinetic
 
