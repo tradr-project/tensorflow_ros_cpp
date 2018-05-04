@@ -22,16 +22,23 @@ else()
   return()
 endif()
 
+set(HAS_TENSORFLOW_GPU 0)
+execute_process(
+  COMMAND ldd "${TENSORFLOW_LIBRARY}"
+  OUTPUT_VARIABLE LDD_OUTPUT
+)
+if(${LDD_OUTPUT} MATCHES "libcuda.so")
+  set(HAS_TENSORFLOW_GPU 1)
+endif()
+
 if(EXISTS ${TF_BAZEL_SRC_DIR})
   message("-- -- Found Tensorflow sources dir ${TF_BAZEL_SRC_DIR}.")
   set(TENSORFLOW_INCLUDE_DIRS ${TF_BAZEL_SRC_DIR}/bazel-genfiles ${TF_BAZEL_SRC_DIR})
 
-  set(BAZEL_TF_DIR ${TF_BAZEL_SRC_DIR}/bazel-tensorflow)
-  set(HAS_TENSORFLOW_GPU 0)
-  if(NOT EXISTS ${BAZEL_TF_DIR})
-    set(BAZEL_TF_DIR ${TF_BAZEL_SRC_DIR}/bazel-tensorflow-gpu)
-    set(HAS_TENSORFLOW_GPU 1)
-  endif()
+  get_filename_component(BAZEL_TF_DIR_REAL ${TF_BAZEL_SRC_DIR} REALPATH)
+  get_filename_component(BAZEL_TF_DIR_NAME ${BAZEL_TF_DIR_REAL} NAME)
+
+  set(BAZEL_TF_DIR ${TF_BAZEL_SRC_DIR}/bazel-${BAZEL_TF_DIR_NAME})
 
   if(NOT ${TF_BAZEL_USE_SYSTEM_PROTOBUF})
     list(APPEND TENSORFLOW_INCLUDE_DIRS ${BAZEL_TF_DIR}/external/protobuf_archive/src)
