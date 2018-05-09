@@ -23,71 +23,75 @@ See below for more detail about each of the installation types and how to set th
 
 If you successfully used this package on an untested configuration (marked with `?`), please, [tell us](https://github.com/tradr-project/tensorflow_ros/issues).
 
-### Ubuntu 14.04 64bits, Python 2.7.6, ROS Indigo, CUDA 8.0
+### Ubuntu 14.04 64bits, Python 2.7.6, ROS Indigo
 
-Version | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (GPU) | tensorflow\_catkin (CPU) | tensorflow\_catkin (GPU) | CUDNN version
---- | --- | --- | --- | --- | --- | --- | ---
-0.12.1 | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | no
-1.0.0  | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | no
-1.1.0  | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 5
-1.2.0  | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 5
-1.3.0  | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 6
-1.4.0  | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 6
-1.5.0  | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 6
-1.6.0  | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 6
-1.7.0  | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | 6
-1.8.0  | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 6
+TF | CUDA | CUDNN | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (GPU) | tensorflow\_catkin (CPU) | tensorflow\_catkin (GPU)
+--- | --- | --- | --- | --- | --- | --- | --- | ---
+0.12.1 | no | no | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.0.0  | no | no | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.1.0  | 8 | 5 | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.2.0  | 8 | 5 | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.3.0  | 8 | 6 | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.4.0  | 8 | 6 | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.5.0  | 8 | 6 | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.6.0  | 8 | 6 | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.7.0  | 8 | 6 | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span>
+1.8.0  | 8 | 6 | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
 
-### Ubuntu 14.04 64bits, Python 3.4, ROS Indigo, CUDA 8.0
+### Ubuntu 14.04 64bits, Python 3.4, ROS Indigo
 
 Had to set `TF_PYTHON_LIBRARY` manually since CMake was only finding Python 2.7 libraries.
 
-Version | pip3 tensorflow | pip3 tensorflow-gpu
---- | --- | ---
-1.8.0  | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)
+TF | CUDA | pip3 tensorflow | pip3 tensorflow-gpu
+--- | --- | --- | ---
+1.8.0 | 8 | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)
 
 
 ### Ubuntu 16.04 64bits, Python 2.7.6, ROS Kinetic
 
-Version | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (GPU) | tensorflow\_catkin (CPU) | tensorflow\_catkin (GPU) | CUDA, CUDNN
---- | --- | --- | --- | --- | --- | --- | ---
-0.12.1| <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 8.0, no
-1.0.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 8.0, 5.0
-1.1.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 8.0, 5.0
-1.2.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 8.0, 5.0
-1.3.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 8.0, 6.0
-1.4.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 8.0, 6.0
-1.5.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 9.0, 7.0
-1.6.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 9.0, 7.0
-1.7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | 9.0, 7.0
-1.8.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | 9.0, 7.0
+TF | CUDA | CUDNN | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (GPU) | tensorflow\_catkin (CPU) | tensorflow\_catkin (GPU)
+--- | --- | --- | --- | --- | --- | --- | --- | ---
+0.12.1 | 8.0 | no  | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.0.0  | 8.0 | 5.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.1.0  | 8.0 | 5.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.2.0  | 8.0 | 5.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.3.0  | 8.0 | 6.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.4.0  | 8.0 | 6.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.5.0  | 9.0 | 7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.6.0  | 9.0 | 7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.7.0  | 9.0 | 7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span>
+1.8.0  | 9.0 | 7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
 
 ### Ubuntu 16.04 64bits, Python 3.5, ROS Kinetic
 
 Had to set `TF_PYTHON_LIBRARY` manually since CMake was only finding Python 2.7 libraries.
 
-Version | pip3 tensorflow | pip3 tensorflow-gpu | CUDA, CUDNN
---- | --- | --- | ---
-1.8.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | 9.0, 7.0
+TF | CUDA | CUDNN | pip3 tensorflow | pip3 tensorflow-gpu
+--- | --- | --- | --- | ---
+1.8.0 | 9.0 | 7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span>
 
 
 ### Ubuntu 18.04 64bits, Python 2.7.6, ROS Melodic
 
-Version | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (GPU) | tensorflow\_catkin (CPU) | tensorflow\_catkin (GPU) | CUDA, CUDNN
---- | --- | --- | --- | --- | --- | --- | ---
+TF | CUDA | CUDNN | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (GPU) | tensorflow\_catkin (CPU) | tensorflow\_catkin (GPU)
+--- | --- | --- | --- | --- | --- | --- | --- | ---
+1.7.0 | 9.0 | 7.1 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:green">✓</span> | <span style="color:green">✓</span>
+1.7.0 | 9.1 | 7.1 | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | ? | ? | <span style="color:green">✓</span> | <span style="color:green">✓</span>
+1.8.0 | 9.0 | 7.1 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.8.0 | 9.1 | 7.1 | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
 
 
 ### Debian Jessie 64bits, Python 2.7.6, ROS Indigo
 
-Version | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (GPU) | tensorflow\_catkin (CPU) | tensorflow\_catkin (GPU) | CUDA, CUDNN
---- | --- | --- | --- | --- | --- | --- | ---
-1.3.0  | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | ? | ? | 8.0, 6
+TF | CUDA | CUDNN | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (GPU) | tensorflow\_catkin (CPU) | tensorflow\_catkin (GPU)
+--- | --- | --- | --- | --- | --- | --- | --- | ---
+1.3.0  | 8.0 | 6 | <span style="color:green">✓</span> | <span style="color:green">✓</span> | ? | ? | ? | ?
 
 ### Debian Stretch 64bits, Python 2.7.6, ROS Indigo (compiled from source)
 
-Version | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (GPU) | tensorflow\_catkin (CPU) | tensorflow\_catkin (GPU) | CUDA, CUDNN
---- | --- | --- | --- | --- | --- | --- | ---
-1.4.0  | <span style="color:orange">C++ ABI problems</span> | <span style="color:orange">C++ ABI problems</span> | <span style="color:green">✓</span> | ? | ? | ? | 8.0, 6
+TF | CUDA | CUDNN | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (GPU) | tensorflow\_catkin (CPU) | tensorflow\_catkin (GPU)
+--- | --- | --- | --- | --- | --- | --- | --- | ---
+1.4.0 | 8.0 | 6 | <span style="color:orange">C++ ABI problems</span> | <span style="color:orange">C++ ABI problems</span> | <span style="color:green">✓</span> | ? | ? | ?
 
 ## Pip installation
 
