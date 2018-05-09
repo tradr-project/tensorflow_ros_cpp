@@ -60,7 +60,7 @@ TF | CUDA | CUDNN | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (G
 1.5.0  | 9.0 | 7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
 1.6.0  | 9.0 | 7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
 1.7.0  | 9.0 | 7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span>
-1.8.0  | 9.0 | 7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.8.0  | 9.0 | 7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
 
 ### Ubuntu 16.04 64bits, Python 3.5, ROS Kinetic
 
@@ -75,10 +75,25 @@ TF | CUDA | CUDNN | pip3 tensorflow | pip3 tensorflow-gpu
 
 TF | CUDA | CUDNN | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (GPU) | tensorflow\_catkin (CPU) | tensorflow\_catkin (GPU)
 --- | --- | --- | --- | --- | --- | --- | --- | ---
-1.7.0 | 9.0 | 7.1 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:green">✓</span> | <span style="color:green">✓</span>
-1.7.0 | 9.1 | 7.1 | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | ? | ? | <span style="color:green">✓</span> | <span style="color:green">✓</span>
-1.8.0 | 9.0 | 7.1 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
-1.8.0 | 9.1 | 7.1 | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.0.0  | 8.0 | 5.0 | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.1.0  | 8.0 | 5.0 | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.2.0  | 8.0 | 5.0 | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.3.0  | 8.0 | 6.0 | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.4.0  | 8.0 | 6.0 | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.5.0  | 9.0 | 7.1 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.6.0  | 9.0 | 7.1 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.7.0  | 9.0 | 7.1 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:green">✓</span> | <span style="color:green">✓</span>
+1.7.0  | 9.1 | 7.1 | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | ? | ? | <span style="color:green">✓</span> | <span style="color:green">✓</span>
+1.8.0  | 9.0 | 7.1 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.8.0  | 9.1 | 7.1 | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+
+### Ubuntu 18.04 64bits, Python 3.6, ROS Melodic
+
+Had to set `TF_PYTHON_LIBRARY` manually since CMake was only finding Python 2.7 libraries.
+
+TF | CUDA | CUDNN | pip3 tensorflow | pip3 tensorflow-gpu
+--- | --- | --- | --- | ---
+1.8.0 | 9.0 | 7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span>
 
 
 ### Debian Jessie 64bits, Python 2.7.6, ROS Indigo
