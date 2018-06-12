@@ -1,0 +1,20 @@
+# This config file for Travis CI utilizes ros-industrial/industrial_ci package.
+# For more info for the package, see https://github.com/ros-industrial/industrial_ci/blob/master/README.rst
+sudo: required 
+dist: trusty 
+services:
+  - docker
+language: generic 
+compiler:
+  - gcc
+notifications:
+  email:
+    on_failure: always
+    recipients:
+      - gm130s@gmail.com
+env:
+  - ROS_DISTRO="kinetic"   ROS_REPOSITORY_PATH=http://packages.ros.org/ros/ubuntu ROSINSTALL_FILENAME=".rosinstall_ci" UPSTREAM_WORKSPACE="file"
+install:
+  - git clone https://github.com/ros-industrial/industrial_ci.git .industrial_ci
+script:
+  - source .industrial_ci/travis.sh
