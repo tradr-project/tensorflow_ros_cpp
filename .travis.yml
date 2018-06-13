@@ -17,7 +17,7 @@ env:
     - BEFORE_SCRIPT=".travis/upgrade_pip.sh"
     - ROSDEP_SKIP_KEYS="tensorflow_catkin"
   matrix:
-    - ROS_DISTRO="indigo" ROS_REPOSITORY_PATH=http://packages.ros.org/ros/ubuntu ROSINSTALL_FILENAME=".travis/rosinstall_ci_old_abi" UPSTREAM_WORKSPACE="file"
+    - ROS_DISTRO="indigo" ROS_REPOSITORY_PATH=http://packages.ros.org/ros/ubuntu ROSINSTALL_FILENAME=".travis/rosinstall_ci_old_abi" UPSTREAM_WORKSPACE="file"  BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install tensorflow"
     - ROS_DISTRO="kinetic" ROS_REPOSITORY_PATH=http://packages.ros.org/ros/ubuntu ROSINSTALL_FILENAME=".travis/rosinstall_ci_new_abi" UPSTREAM_WORKSPACE="file" CATKIN_CONFIG="-DFORCE_TF_PIP_SEARCH=1"
     - ROS_DISTRO="melodic" ROS_REPOSITORY_PATH=http://packages.ros.org/ros/ubuntu ROSINSTALL_FILENAME=".travis/rosinstall_ci_new_abi" UPSTREAM_WORKSPACE="file" CATKIN_CONFIG="-DFORCE_TF_PIP_SEARCH=1"
 install:
