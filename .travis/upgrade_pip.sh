@@ -1,3 +1,4 @@
 #!/bin/bash
 
-pip install --upgrade pip
+wget 'https://pip.pypa.io/en/stable/installing/'
+python get-pip.py
