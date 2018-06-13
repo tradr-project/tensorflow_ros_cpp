@@ -1,3 +1,3 @@
 #!/bin/bash
 
-pip --upgrade pip
+pip install --upgrade pip
