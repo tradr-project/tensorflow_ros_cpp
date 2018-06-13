@@ -13,7 +13,7 @@ notifications:
     recipients:
       - gm130s@gmail.com
 env:
-  - ROS_DISTRO="kinetic"   ROS_REPOSITORY_PATH=http://packages.ros.org/ros/ubuntu ROSINSTALL_FILENAME=".rosinstall_ci" UPSTREAM_WORKSPACE="file" ROSDEP_SKIP_KEYS="tensorflow_catkin"
+  - ROS_DISTRO="kinetic"   ROS_REPOSITORY_PATH=http://packages.ros.org/ros/ubuntu ROSINSTALL_FILENAME=".rosinstall_ci" UPSTREAM_WORKSPACE="file" ROSDEP_SKIP_KEYS="tensorflow_catkin" CATKIN_CONFIG="-DFORCE_TF_PIP_SEARCH=1"
 install:
   - git clone https://github.com/ros-industrial/industrial_ci.git .industrial_ci
 script:
