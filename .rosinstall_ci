@@ -3,5 +3,5 @@
 # IF YOU WANT TO CHANGE THE ROS ENVIRONMENT VARIABLES
 # USE THE rosinstall TOOL INSTEAD.
 # IF YOU CHANGE IT, USE rosinstall FOR THE CHANGES TO TAKE EFFECT
-- git: {local-name: tensorflow_catkin, uri: 'https://github.com/plusone-robotics/tensorflow_catkin.git',
-        version: master}
+#- git: {local-name: tensorflow_catkin, uri: 'https://github.com/plusone-robotics/tensorflow_catkin.git',
+#        version: master}
