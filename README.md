@@ -13,9 +13,11 @@ See the usage example at [https://github.com/tradr-project/tensorflow_ros_test].
 
 ## Supported Tensorflow installations
 
-1. **As a pip (Python) package:** The easiest way on Ubuntu 14.04, Just `pip install tensorflow` and that's it. GPU version supported! Can be used on newer Ubuntu versions, but with important limitations.
-1. **Using [`tensorflow_catkin`](https://github.com/Skydes/tensorflow_catkin) package:** Easily compile Tensorflow for your platform. A convenient way on newer systems. Supports GPU version.
-1. **Using a custom build of Tensorflow built by bazel:** The least comfortable, yet most powerful way. [Compile Tensorflow yourself using bazel](https://www.tensorflow.org/install/install_sources) and tell this package where to find it.
+You can choose either one of the following options to install `Tensorflow`.
+
+- **As a pip (Python) package:** The easiest way on Ubuntu 14.04, Just `pip install tensorflow` and that's it. GPU version supported! Can be used on newer Ubuntu versions, but with important limitations.
+- **Using [`tensorflow_catkin`](https://github.com/Skydes/tensorflow_catkin) package:** Easily compile Tensorflow for your platform. A convenient way on newer systems. Supports GPU version.
+- **Using a custom build of Tensorflow built by bazel:** The least comfortable, yet most powerful way. [Compile Tensorflow yourself using bazel](https://www.tensorflow.org/install/install_sources) and tell this package where to find it.
 
 See below for more detail about each of the installation types and how to set them up.
 
