@@ -1,5 +1,7 @@
 # tensorflow\_ros
 
+[![Build Status](https://travis-ci.com/tradr-project/tensorflow_ros.svg?branch=master)](https://travis-ci.com/tradr-project/tensorflow_ros)
+
 A Catkin-friendly package for utilizing the C++ API of Tensorflow.
 
 Get Tensorflow C++ API into ROS as easy as
