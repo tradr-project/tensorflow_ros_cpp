@@ -17,5 +17,4 @@
   <build_depend>swig</build_depend>
 
   <depend>python-tensorflow-pip</depend> <!-- optional -->
-  <depend>tensorflow_catkin</depend> <!-- optional -->
 </package>
