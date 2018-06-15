@@ -212,5 +212,5 @@ if(${SYSTEM_USES_CXX11_ABI})
 endif()
 
 set(TENSORFLOW_FOUND 1)
-set(tensorflow_ros_INCLUDE_DIRS ${TENSORFLOW_INCLUDE_DIRS})
-set(tensorflow_ros_LIBRARIES ${TENSORFLOW_LIBRARIES})
+set(tensorflow_ros_cpp_INCLUDE_DIRS ${TENSORFLOW_INCLUDE_DIRS})
+set(tensorflow_ros_cpp_LIBRARIES ${TENSORFLOW_LIBRARIES})

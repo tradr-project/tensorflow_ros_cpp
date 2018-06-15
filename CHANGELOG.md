@@ -1,3 +1,6 @@
+# 3.0.0
+- Renamed package from `tensorflow_ros` to `tensorflow_ros_cpp`. Please, clean your workspace and update references to the package after pulling this version.
+
 # 2.1.0
 - Added CI integration, thanks to [Isaac I.Y. Saito](https://github.com/130s).
 

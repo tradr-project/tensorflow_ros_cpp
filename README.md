@@ -1,4 +1,6 @@
-# tensorflow\_ros
+**Warning: This package has recently been renamed from `tensorflow_ros` to `tensorflow_ros_cpp` to avoid name collision with [`tensorflow_ros` in `image_recognition` metapackage](https://github.com/tue-robotics/image_recognition/tree/master/tensorflow_ros). After pulling changes from this repo, you need to clean and rebuild your workspace (without the cleaning, build problems are expected). We're sorry for the inconvenience.**
+
+# tensorflow\_ros\_cpp
 
 [![Build Status](https://travis-ci.com/tradr-project/tensorflow_ros.svg?branch=master)](https://travis-ci.com/tradr-project/tensorflow_ros)
 
@@ -8,7 +10,7 @@ Get Tensorflow C++ API into ROS as easy as
 
     find_package(catkin REQUIRED COMPONENTS
       ... your other packages ...
-      tensorflow_ros
+      tensorflow_ros_cpp
     )
 
 See the usage example at [https://github.com/tradr-project/tensorflow_ros_test].
@@ -25,7 +27,7 @@ See below for more detail about each of the installation types and how to set th
 
 ## Tested compatible versions
 
-If you successfully used this package on an untested configuration (marked with `?`), please, [tell us](https://github.com/tradr-project/tensorflow_ros/issues).
+If you successfully used this package on an untested configuration (marked with `?`), please, [tell us](https://github.com/tradr-project/tensorflow_ros_cpp/issues).
 
 ### Ubuntu 14.04 64bits, Python 2.7.6, ROS Indigo
 

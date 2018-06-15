@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(tensorflow_ros)
+project(tensorflow_ros_cpp)
 
 find_package(catkin REQUIRED)
 
@@ -24,7 +24,7 @@ set(TF_BAZEL_SRC_DIR "${CATKIN_DEVEL_PREFIX}/../tensorflow-include-base" CACHE S
 set(TF_BAZEL_USE_SYSTEM_PROTOBUF OFF CACHE BOOL "Whether to use system-installed protobuf includes or those distributed with Tensorflow")
 
 
-message("-- tensorflow_ros is probing the system")
+message("-- tensorflow_ros_cpp is probing the system")
 
 # check for a modern c++ compiler, since tensorflow needs support for the c++11 standard
 include(CheckCXXCompilerFlag)
@@ -52,11 +52,11 @@ endif()
 set(HAS_TENSORFLOW_GPU 0)
 set(TENSORFLOW_FOUND 0)
 
-set(tensorflow_ros_INCLUDE_DIRS "")
-set(tensorflow_ros_LIBRARIES "")
-set(tensorflow_ros_DEPENDS "")
-set(tensorflow_ros_CATKIN_DEPENDS "")
-set(tensorflow_ros_TARGETS "")
+set(tensorflow_ros_cpp_INCLUDE_DIRS "")
+set(tensorflow_ros_cpp_LIBRARIES "")
+set(tensorflow_ros_cpp_DEPENDS "")
+set(tensorflow_ros_cpp_CATKIN_DEPENDS "")
+set(tensorflow_ros_cpp_TARGETS "")
 
 # 1. PIP
 
@@ -108,10 +108,10 @@ if(NOT ${TENSORFLOW_FOUND})
 endif()
 
 catkin_package(
-	INCLUDE_DIRS ${tensorflow_ros_INCLUDE_DIRS}
-	LIBRARIES ${tensorflow_ros_LIBRARIES}
-	DEPENDS ${tensorflow_ros_DEPENDS}
-	CATKIN_DEPENDS ${tensorflow_ros_CATKIN_DEPENDS}
+	INCLUDE_DIRS ${tensorflow_ros_cpp_INCLUDE_DIRS}
+	LIBRARIES ${tensorflow_ros_cpp_LIBRARIES}
+	DEPENDS ${tensorflow_ros_cpp_DEPENDS}
+	CATKIN_DEPENDS ${tensorflow_ros_cpp_CATKIN_DEPENDS}
 	CFG_EXTRAS tensorflow-extras.cmake  # to add the c++11 compiler flag
 )
 

@@ -16,7 +16,7 @@ env:
   global:
     - BEFORE_SCRIPT=".travis/upgrade_pip.sh"
     - ROSDEP_SKIP_KEYS="tensorflow_catkin"
-    - TARGET_PKGS="tensorflow_ros tensorflow_ros_test"
+    - TARGET_PKGS="tensorflow_ros_cpp tensorflow_ros_test"
     - ROS_REPOSITORY_PATH=http://packages.ros.org/ros/ubuntu
     - UPSTREAM_WORKSPACE="file"
     - TENSORFLOW_ROS_MODEL_PATH=/root/catkin_ws/src/tensorflow_ros_test/models/train.pb
