@@ -1,3 +1,7 @@
+# 3.0.1
+- Removed dependency on `swig`. It should be handled upstream by `tensorflow_catkin`.
+- Added a note about `rosdep --skip-keys` for handling optional dependencies to README.
+
 # 3.0.0
 - Renamed package from `tensorflow_ros` to `tensorflow_ros_cpp`. Please, clean your workspace and update references to the package after pulling this version.
 

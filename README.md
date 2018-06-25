@@ -25,6 +25,12 @@ You can choose either one of the following options to install `Tensorflow`.
 
 See below for more detail about each of the installation types and how to set them up.
 
+## Note for `rosdep` users
+
+If you're managing dependencies via `rosdep`, it is likely that you do not want it to try to install the optional dependencies (currently `python-tensorflow-pip` and `tensorflow_catkin`). In such case, add the following to the rosdep call:
+
+    rosdep install ... --skip-keys=tensorflow_catkin --skip-keys=python-tensorflow-pip
+
 ## Tested compatible versions
 
 If you successfully used this package on an untested configuration (marked with `?`), please, [tell us](https://github.com/tradr-project/tensorflow_ros_cpp/issues).
