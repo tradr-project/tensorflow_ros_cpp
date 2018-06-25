@@ -16,4 +16,5 @@
   <build_depend>python-pip</build_depend> <!-- optional -->
 
   <depend>python-tensorflow-pip</depend> <!-- optional -->
+  <depend>tensorflow_catkin</depend> <!-- optional -->
 </package>
