@@ -120,6 +120,12 @@ TF | CUDA | CUDNN | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (G
 --- | --- | --- | --- | --- | --- | --- | --- | ---
 1.4.0 | 8.0 | 6 | <span style="color:orange">C++ ABI problems</span> | <span style="color:orange">C++ ABI problems</span> | <span style="color:green">✓</span> | ? | ? | ?
 
+## Exported CMake variables
+
+Except for the standard catkin variables (`tensorflow_ros_cpp_INCLUDE_DIRS`, `tensorflow_ros_cpp_LIBRARIES`, `tensorflow_ros_cpp_DEPENDS` and `tensorflow_ros_cpp_CATKIN_DEPENDS`), the following variables can be used from packages that `find_package` this package:
+
+ - `tensorflow_ros_cpp_USES_CXX11_ABI` (bool): Whether the used Tensorflow library is built using C++11 ABI or not.
+
 ## Pip installation
 
 ### Prerequisites

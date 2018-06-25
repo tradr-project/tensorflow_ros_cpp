@@ -58,12 +58,19 @@ set(tensorflow_ros_cpp_DEPENDS "")
 set(tensorflow_ros_cpp_CATKIN_DEPENDS "")
 set(tensorflow_ros_cpp_TARGETS "")
 
+set(tensorflow_ros_cpp_USES_CXX11_ABI ${SYSTEM_USES_CXX11_ABI})
+
 # 1. PIP
 
 if((NOT ${SYSTEM_USES_CXX11_ABI} OR ${FORCE_TF_PIP_SEARCH}) AND NOT ${DISABLE_TF_PIP_SEARCH})
 	message("-- - Trying to find Tensorflow installed by pip")
 
 	include(cmake/detect_tf_pip.cmake)
+
+	# pip-installed tensorflow is always built without C++11 ABI
+	if(${TENSORFLOW_FOUND})
+		set(tensorflow_ros_cpp_USES_CXX11_ABI 0)
+	endif()
 
 else()
 	if(${DISABLE_TF_PIP_SEARCH})
