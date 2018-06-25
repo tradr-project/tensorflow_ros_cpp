@@ -83,5 +83,6 @@ if(NOT ${Protobuf_FOUND})
 endif()
 
 set(TENSORFLOW_FOUND 1)
+set(TENSORFLOW_FOUND_BY "bazel")
 set(tensorflow_ros_cpp_INCLUDE_DIRS ${TENSORFLOW_INCLUDE_DIRS} ${Protobuf_INCLUDE_DIRS})
 set(tensorflow_ros_cpp_LIBRARIES ${TENSORFLOW_LIBRARIES} ${Protobuf_LIBRARIES})

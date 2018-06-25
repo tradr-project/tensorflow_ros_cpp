@@ -51,6 +51,7 @@ endif()
 
 set(HAS_TENSORFLOW_GPU 0)
 set(TENSORFLOW_FOUND 0)
+set(TENSORFLOW_FOUND_BY "NOTFOUND")
 
 set(tensorflow_ros_cpp_INCLUDE_DIRS "")
 set(tensorflow_ros_cpp_LIBRARIES "")
@@ -112,6 +113,20 @@ endif()
 
 if(NOT ${TENSORFLOW_FOUND})
   message(FATAL_ERROR "Tensorflow was not found")
+else()
+	message("-- Using Tensorflow library found by ${TENSORFLOW_FOUND_BY}")
+endif()
+
+if(${tensorflow_ros_cpp_USES_CXX11_ABI})
+	message("-- The found Tensorflow library uses C++11 ABI.")
+else()
+	message("-- The found Tensorflow library uses C++03 ABI.")
+endif()
+
+if(${HAS_TENSORFLOW_GPU})
+	message("-- The found Tensorflow library is compiled with CUDA support.")
+else()
+	message("-- The found Tensorflow library is compiled without CUDA support.")
 endif()
 
 set(tensorflow_ros_cpp_CMAKE_CXX_FLAGS_PRIVATE "-D_GLIBCXX_USE_CXX11_ABI=${tensorflow_ros_cpp_USES_CXX11_ABI}")

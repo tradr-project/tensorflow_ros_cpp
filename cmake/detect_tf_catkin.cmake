@@ -39,6 +39,7 @@ if(${HAS_TENSORFLOW_GPU})
 endif()
 
 set(TENSORFLOW_FOUND 1)
+set(TENSORFLOW_FOUND_BY "tensorflow_catkin")
 
 set(tensorflow_ros_cpp_INCLUDE_DIRS ${tensorflow_catkin_INCLUDE_DIRS})
 if(EXISTS ${tensorflow_catkin_INCLUDE_DIRS}/external/nsync/public)
