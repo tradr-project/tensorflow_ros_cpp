@@ -114,6 +114,8 @@ if(NOT ${TENSORFLOW_FOUND})
   message(FATAL_ERROR "Tensorflow was not found")
 endif()
 
+set(tensorflow_ros_cpp_CMAKE_CXX_FLAGS_PRIVATE "-D_GLIBCXX_USE_CXX11_ABI=${tensorflow_ros_cpp_USES_CXX11_ABI}")
+
 catkin_package(
 	INCLUDE_DIRS ${tensorflow_ros_cpp_INCLUDE_DIRS}
 	LIBRARIES ${tensorflow_ros_cpp_LIBRARIES}
