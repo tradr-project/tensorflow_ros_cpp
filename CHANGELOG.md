@@ -1,3 +1,8 @@
+# 3.1.0
+- Added exported CMake variable `tensorflow_ros_cpp_USES_CXX11_ABI`
+- Added exported CMake variable `tensorflow_ros_cpp_CMAKE_CXX_FLAGS_PRIVATE`
+- Added a few CMake messages to sum up properties of the found TF library
+
 # 3.0.1
 - Removed dependency on `swig`. It should be handled upstream by `tensorflow_catkin`.
 - Added a note about `rosdep --skip-keys` for handling optional dependencies to README.
