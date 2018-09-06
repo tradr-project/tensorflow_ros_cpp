@@ -1,5 +1,3 @@
-**Warning: This package has recently been renamed from `tensorflow_ros` to `tensorflow_ros_cpp` to avoid name collision with [`tensorflow_ros` in `image_recognition` metapackage](https://github.com/tue-robotics/image_recognition/tree/master/tensorflow_ros). After pulling changes from this repo, you need to clean and rebuild your workspace (without the cleaning, build problems are expected). We're sorry for the inconvenience.**
-
 # tensorflow\_ros\_cpp
 
 [![Build Status](https://travis-ci.com/tradr-project/tensorflow_ros_cpp.svg?branch=master)](https://travis-ci.com/tradr-project/tensorflow_ros_cpp)
@@ -20,7 +18,7 @@ See the usage example at [https://github.com/tradr-project/tensorflow_ros_test].
 You can choose either one of the following options to install `Tensorflow`.
 
 - **As a pip (Python) package:** The easiest way on Ubuntu 14.04, Just `pip install tensorflow` and that's it. GPU version supported! Can be used on newer Ubuntu versions, but with important limitations.
-- **Using [`tensorflow_catkin`](https://github.com/Skydes/tensorflow_catkin) package:** Easily compile Tensorflow for your platform. A convenient way on newer systems. Supports GPU version.
+- **Using [`tensorflow_catkin`](https://github.com/ethz-asl/tensorflow_catkin) package:** Easily compile Tensorflow for your platform. A convenient way on newer systems. Supports GPU version.
 - **Using a custom build of Tensorflow built by bazel:** The least comfortable, yet most powerful way. [Compile Tensorflow yourself using bazel](https://www.tensorflow.org/install/install_sources) and tell this package where to find it.
 
 See below for more detail about each of the installation types and how to set them up.
@@ -175,7 +173,7 @@ This is why searching for the pip-installed Tensorflow is disabled by default on
 
 ### Prerequisites
 
-Add package [`tensorflow_catkin`](https://github.com/Skydes/tensorflow_catkin) to your Catkin workspace.
+Add package [`tensorflow_catkin`](https://github.com/ethz-asl/tensorflow_catkin) to your Catkin workspace.
 Read its readme to correctly set the required CMake variables (no setup needed for the CPU version).
 
 Be prepared that the compilation will eat up a lot of RAM and take a long time. On my system with 8 concurrent build jobs, it ate around 20 GBs in the peak.
