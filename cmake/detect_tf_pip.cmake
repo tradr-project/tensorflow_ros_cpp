@@ -15,6 +15,7 @@ endif()
 
 # search in pip
 if(NOT ${TENSORFLOW_DIR_FOUND})
+  message("-- -- Using pip command: ${TF_PIP_EXECUTABLE}")
   execute_process(
       COMMAND ${TF_PIP_EXECUTABLE} -V
       RESULT_VARIABLE PIP_NOT_FOUND
@@ -162,9 +163,10 @@ set(TENSORFLOW_LIBRARIES _pywrap_tensorflow)
 set(TENSORFLOW_TARGETS ${TENSORFLOW_LIBRARY} ${TENSORFLOW_LIBRARY2})
 
 # Added in tensorflow 1.4.0
-set(TENSORFLOW_FRAMEWORK_LIBRARY ${CATKIN_DEVEL_PREFIX}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}tensorflow_framework${CMAKE_SHARED_LIBRARY_SUFFIX})
-set(TENSORFLOW_FRAMEWORK_ORIG_LIBRARY ${TENSORFLOW_PATH}/${CMAKE_SHARED_LIBRARY_PREFIX}tensorflow_framework${CMAKE_SHARED_LIBRARY_SUFFIX})
+FILE(GLOB TENSORFLOW_FRAMEWORK_ORIG_LIBRARY ${TENSORFLOW_PATH}/${CMAKE_SHARED_LIBRARY_PREFIX}tensorflow_framework${CMAKE_SHARED_LIBRARY_SUFFIX}*)
 if(EXISTS ${TENSORFLOW_FRAMEWORK_ORIG_LIBRARY})
+  get_filename_component(TENSORFLOW_FRAMEWORK_ORIG_LIBRARY_NAME ${TENSORFLOW_FRAMEWORK_ORIG_LIBRARY} NAME)
+  set(TENSORFLOW_FRAMEWORK_LIBRARY ${CATKIN_DEVEL_PREFIX}/lib/${TENSORFLOW_FRAMEWORK_ORIG_LIBRARY_NAME})
   if(NOT EXISTS ${TENSORFLOW_FRAMEWORK_LIBRARY})
     file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/lib)
     execute_process(
@@ -179,7 +181,7 @@ if(EXISTS ${TENSORFLOW_FRAMEWORK_ORIG_LIBRARY})
       return()
     endif()
   endif()
-  list(APPEND TENSORFLOW_LIBRARIES tensorflow_framework)
+  list(APPEND TENSORFLOW_LIBRARIES ${TENSORFLOW_FRAMEWORK_ORIG_LIBRARY_NAME})
   list(APPEND TENSORFLOW_TARGETS ${TENSORFLOW_FRAMEWORK_LIBRARY})
 endif()
 
@@ -192,7 +194,13 @@ if(NOT "${TF_PYTHON_LIBRARY}" STREQUAL "")
     return()
   endif()
 else()
-  find_package(PythonLibs ${TF_PYTHON_VERSION})
+  if (TF_PYTHON_VERSION MATCHES '3.*')
+    set(Python_ADDITIONAL_VERSIONS ${TF_PYTHON_VERSION})
+    find_package(PythonLibs ${TF_PYTHON_VERSION} EXACT)
+  else()
+    find_package(PythonLibs ${TF_PYTHON_VERSION})
+  endif()
+
   if (NOT ${PYTHONLIBS_FOUND})
     message(WARNING "-- -- Could not find python${TF_PYTHON_VERSION} development libraries, install python${TF_PYTHON_VERSION}-dev. If it is already installed and you still get this message, you have to provide the absolute path to libpythonx.y.so manually in TF_PYTHON_LIBRARY.")
     return()
