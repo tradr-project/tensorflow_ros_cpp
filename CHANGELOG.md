@@ -1,3 +1,6 @@
+# 3.1.1
+- Compatibility with TF 1.14.
+
 # 3.1.0
 - Added exported CMake variable `tensorflow_ros_cpp_USES_CXX11_ABI`
 - Added exported CMake variable `tensorflow_ros_cpp_CMAKE_CXX_FLAGS_PRIVATE`
