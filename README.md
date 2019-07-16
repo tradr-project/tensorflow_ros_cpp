@@ -96,7 +96,7 @@ TF | CUDA | CUDNN | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (G
 1.7.0  | 9.1 | 7.1 | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | ? | ? | <span style="color:green">✓</span> | <span style="color:green">✓</span>
 1.8.0  | 9.0 | 7.1 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
 1.8.0  | 9.1 | 7.1 | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
-1.14.0  | 10.0 | 7.4 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | ? | ?
+1.14.0  | 10.0 | 7.4 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:green">✓<</span> | ? | ? | ?
 
 ### Ubuntu 18.04 64bits, Python 3.6, ROS Melodic
 
