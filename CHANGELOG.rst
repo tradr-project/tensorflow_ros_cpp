@@ -2,8 +2,8 @@
 Changelog for package tensorflow_ros_cpp
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+3.1.1 (2019-07-17)
+------------------
 * Compatibility with TF 1.14.
 * Updated tensorflow_catkin link, removed the rename warning.
 * Contributors: Martin Pecka
