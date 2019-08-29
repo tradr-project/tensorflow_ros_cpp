@@ -17,11 +17,12 @@ if(EXISTS ${TF_BAZEL_LIBRARY})
   endif()
   set(TENSORFLOW_TARGETS ${TENSORFLOW_LIBRARY})
 
-  if(EXISTS ${TF_BAZEL_LIBRARY}.1)
+  get_filename_component(TF_BAZEL_REAL_LIBRARY ${TF_BAZEL_LIBRARY} REALPATH)
+  if(EXISTS ${TF_BAZEL_REAL_LIBRARY}.1)
     if(NOT EXISTS ${TENSORFLOW_LIBRARY}.1)
       file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/lib)
       execute_process(
-          COMMAND ln -sf ${TF_BAZEL_LIBRARY}.1 ${TENSORFLOW_LIBRARY}.1
+          COMMAND ln -sf ${TF_BAZEL_REAL_LIBRARY}.1 ${TENSORFLOW_LIBRARY}.1
           RESULT_VARIABLE LINK_FAILED
           OUTPUT_QUIET
       )
@@ -35,6 +36,47 @@ if(EXISTS ${TF_BAZEL_LIBRARY})
     list(APPEND TENSORFLOW_TARGETS ${TENSORFLOW_LIBRARY}.1)
   endif()
   set(TENSORFLOW_LIBRARIES tensorflow_cc)
+
+  get_filename_component(TF_BAZEL_LIB_DIR "${TF_BAZEL_REAL_LIBRARY}" DIRECTORY)
+  set(TF_BAZEL_FRAMEWORK_LIB "${TF_BAZEL_LIB_DIR}/libtensorflow_framework.so")
+  set(TENSORFLOW_FRAMEWORK_LIB "${CATKIN_DEVEL_PREFIX}/lib/libtensorflow_framework.so")
+  if(NOT EXISTS "${TF_BAZEL_FRAMEWORK_LIB}")
+	  set(TF_BAZEL_FRAMEWORK_LIB "${TF_BAZEL_FRAMEWORK_LIB}.1")
+	  set(TENSORFLOW_FRAMEWORK_LIB "${TENSORFLOW_FRAMEWORK_LIB}.1")
+  endif()
+  if(EXISTS "${TF_BAZEL_FRAMEWORK_LIB}")
+    if(NOT EXISTS ${TENSORFLOW_FRAMEWORK_LIB})
+      file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/lib)
+      execute_process(
+	      COMMAND ln -sf ${TF_BAZEL_FRAMEWORK_LIB} ${TENSORFLOW_FRAMEWORK_LIB}
+          RESULT_VARIABLE LINK_FAILED
+          OUTPUT_QUIET
+      )
+      if("${LINK_FAILED}" STREQUAL "0")
+	      message("-- -- Created tensorflow library link ${TF_BAZEL_FRAMEWORK_LIB} -> ${TENSORFLOW_FRAMEWORK_LIB}.")
+      else()
+	      message(WARNING "-- -- Could not create symlink from ${TF_BAZEL_FRAMEWORK_LIB} -> ${TENSORFLOW_FRAMEWORK_LIB}.")
+        return()
+      endif()
+    endif()
+    # if the so.1 file was used, we need to also crate a "pure" .so link
+    if(NOT EXISTS "${CATKIN_DEVEL_PREFIX}/lib/libtensorflow_framework.so")
+      execute_process(
+          COMMAND ln -sf ${TF_BAZEL_FRAMEWORK_LIB} "${CATKIN_DEVEL_PREFIX}/lib/libtensorflow_framework.so"
+          RESULT_VARIABLE LINK_FAILED
+          OUTPUT_QUIET
+      )
+      if("${LINK_FAILED}" STREQUAL "0")
+	      message("-- -- Created tensorflow library link ${TF_BAZEL_FRAMEWORK_LIB} -> ${CATKIN_DEVEL_PREFIX}/lib/libtensorflow_framework.so.")
+      else()
+	      message(WARNING "-- -- Could not create symlink from ${TF_BAZEL_FRAMEWORK_LIB} -> ${CATKIN_DEVEL_PREFIX}/lib/libtensorflow_framework.so.")
+        return()
+      endif()
+
+    endif()
+    list(APPEND TENSORFLOW_TARGETS ${TENSORFLOW_FRAMEWORK_LIB})
+    list(APPEND TENSORFLOW_LIBRARIES tensorflow_framework)
+  endif()
 else()
   message(WARNING "Bazel-compiled Tensorflow library ${TF_BAZEL_LIBRARY} not found.")
   return()
@@ -90,18 +132,24 @@ else()
   return()
 endif()
 
-# Allow finding Protobuf using pkg-config first, which is easier to point to a custom installation
-include(FindPkgConfig)
-pkg_check_modules(Protobuf protobuf)
-if (NOT ${Protobuf_FOUND})
-  find_package(Protobuf)
-endif()
-if(NOT ${Protobuf_FOUND})
-  message(WARNING "-- -- Protobuf library not found")
-  return()
-endif()
-
 set(TENSORFLOW_FOUND 1)
 set(TENSORFLOW_FOUND_BY "bazel")
-set(tensorflow_ros_cpp_INCLUDE_DIRS ${TENSORFLOW_INCLUDE_DIRS} ${Protobuf_INCLUDE_DIRS})
-set(tensorflow_ros_cpp_LIBRARIES ${TENSORFLOW_LIBRARIES} ${Protobuf_LIBRARIES})
+
+list(APPEND tensorflow_ros_cpp_INCLUDE_DIRS ${TENSORFLOW_INCLUDE_DIRS})
+list(APPEND tensorflow_ros_cpp_LIBRARIES ${TENSORFLOW_LIBRARIES})
+
+if(${TF_BAZEL_USE_SYSTEM_PROTOBUF})
+  # Allow finding Protobuf using pkg-config first, which is easier to point to a custom installation
+  include(FindPkgConfig)
+  pkg_check_modules(Protobuf protobuf)
+  if (NOT ${Protobuf_FOUND})
+    find_package(Protobuf)
+  endif()
+  if(NOT ${Protobuf_FOUND})
+    message(WARNING "-- -- Protobuf library not found")
+    return()
+  endif()
+
+  list(APPEND tensorflow_ros_cpp_INCLUDE_DIRS ${Protobuf_INCLUDE_DIRS})
+  list(APPEND tensorflow_ros_cpp_LIBRARIES ${Protobuf_LIBRARIES})
+endif()
