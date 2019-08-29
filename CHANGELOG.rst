@@ -2,8 +2,8 @@
 Changelog for package tensorflow_ros_cpp
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+3.1.2 (2019-08-29)
+------------------
 * Merge branch 'master' of git@github.com:tradr-project/tensorflow_ros_cpp.git
   # Conflicts:
   #	CHANGELOG.md
