@@ -2,6 +2,16 @@
 Changelog for package tensorflow_ros_cpp
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merge branch 'master' of git@github.com:tradr-project/tensorflow_ros_cpp.git
+  # Conflicts:
+  #	CHANGELOG.md
+* Added support for bazel-based build with framework_shared_object=true.
+* 3.1.1
+* Changelog
+* Contributors: Martin Pecka
+
 3.1.1 (2019-07-17)
 ------------------
 * Compatibility with TF 1.14.
