@@ -21,20 +21,20 @@ env:
     - UPSTREAM_WORKSPACE="file"
     - TENSORFLOW_ROS_MODEL_PATH=/root/catkin_ws/src/tensorflow_ros_test/models/train.pb
   matrix:
-    - ROS_DISTRO="indigo" ROSINSTALL_FILENAME=".travis/rosinstall_ci_old_abi" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install 'tensorflow<2'"
-    - ROS_DISTRO="indigo" ROSINSTALL_FILENAME=".travis/rosinstall_ci_old_abi" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install tensorflow==1.0.0"
-    - ROS_DISTRO="indigo" ROSINSTALL_FILENAME=".travis/rosinstall_ci_old_abi" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install tensorflow==1.8.0"
-    - ROS_DISTRO="indigo" ROSINSTALL_FILENAME=".travis/rosinstall_ci_old_abi" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install tensorflow==1.14.0"
+    - ROS_DISTRO="indigo" ROSINSTALL_FILENAME=".travis/rosinstall_ci_old_abi" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install 'tensorflow<2' --progress-bar off"
+    - ROS_DISTRO="indigo" ROSINSTALL_FILENAME=".travis/rosinstall_ci_old_abi" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install tensorflow==1.0.0 --progress-bar off"
+    - ROS_DISTRO="indigo" ROSINSTALL_FILENAME=".travis/rosinstall_ci_old_abi" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install tensorflow==1.8.0 --progress-bar off"
+    - ROS_DISTRO="indigo" ROSINSTALL_FILENAME=".travis/rosinstall_ci_old_abi" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install tensorflow==1.14.0 --progress-bar off"
 
-    - ROS_DISTRO="kinetic" ROSINSTALL_FILENAME=".travis/rosinstall_ci_new_abi" CATKIN_CONFIG="-DFORCE_TF_PIP_SEARCH=1" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install 'tensorflow<2'"
-    - ROS_DISTRO="kinetic" ROSINSTALL_FILENAME=".travis/rosinstall_ci_new_abi" CATKIN_CONFIG="-DFORCE_TF_PIP_SEARCH=1" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install tensorflow==1.0.0"   
-    - ROS_DISTRO="kinetic" ROSINSTALL_FILENAME=".travis/rosinstall_ci_new_abi" CATKIN_CONFIG="-DFORCE_TF_PIP_SEARCH=1" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install tensorflow==1.8.0"
-    - ROS_DISTRO="kinetic" ROSINSTALL_FILENAME=".travis/rosinstall_ci_new_abi" CATKIN_CONFIG="-DFORCE_TF_PIP_SEARCH=1" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install tensorflow==1.14.0"
+    - ROS_DISTRO="kinetic" ROSINSTALL_FILENAME=".travis/rosinstall_ci_new_abi" CATKIN_CONFIG="-DFORCE_TF_PIP_SEARCH=1" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install 'tensorflow<2' --progress-bar off"
+    - ROS_DISTRO="kinetic" ROSINSTALL_FILENAME=".travis/rosinstall_ci_new_abi" CATKIN_CONFIG="-DFORCE_TF_PIP_SEARCH=1" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install tensorflow==1.0.0 --progress-bar off"
+    - ROS_DISTRO="kinetic" ROSINSTALL_FILENAME=".travis/rosinstall_ci_new_abi" CATKIN_CONFIG="-DFORCE_TF_PIP_SEARCH=1" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install tensorflow==1.8.0 --progress-bar off"
+    - ROS_DISTRO="kinetic" ROSINSTALL_FILENAME=".travis/rosinstall_ci_new_abi" CATKIN_CONFIG="-DFORCE_TF_PIP_SEARCH=1" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install tensorflow==1.14.0 --progress-bar off"
 
-    - ROS_DISTRO="melodic" ROSINSTALL_FILENAME=".travis/rosinstall_ci_new_abi" CATKIN_CONFIG="-DFORCE_TF_PIP_SEARCH=1" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install 'tensorflow<2'"
-    - ROS_DISTRO="melodic" ROSINSTALL_FILENAME=".travis/rosinstall_ci_new_abi" CATKIN_CONFIG="-DFORCE_TF_PIP_SEARCH=1" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install tensorflow==1.0.0"
-    - ROS_DISTRO="melodic" ROSINSTALL_FILENAME=".travis/rosinstall_ci_new_abi" CATKIN_CONFIG="-DFORCE_TF_PIP_SEARCH=1" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install tensorflow==1.8.0"
-    - ROS_DISTRO="melodic" ROSINSTALL_FILENAME=".travis/rosinstall_ci_new_abi" CATKIN_CONFIG="-DFORCE_TF_PIP_SEARCH=1" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install tensorflow==1.14.0"
+    - ROS_DISTRO="melodic" ROSINSTALL_FILENAME=".travis/rosinstall_ci_new_abi" CATKIN_CONFIG="-DFORCE_TF_PIP_SEARCH=1" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install 'tensorflow<2' --progress-bar off"
+    - ROS_DISTRO="melodic" ROSINSTALL_FILENAME=".travis/rosinstall_ci_new_abi" CATKIN_CONFIG="-DFORCE_TF_PIP_SEARCH=1" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install tensorflow==1.0.0 --progress-bar off"
+    - ROS_DISTRO="melodic" ROSINSTALL_FILENAME=".travis/rosinstall_ci_new_abi" CATKIN_CONFIG="-DFORCE_TF_PIP_SEARCH=1" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install tensorflow==1.8.0 --progress-bar off"
+    - ROS_DISTRO="melodic" ROSINSTALL_FILENAME=".travis/rosinstall_ci_new_abi" CATKIN_CONFIG="-DFORCE_TF_PIP_SEARCH=1" BEFORE_SCRIPT=".travis/upgrade_pip.sh && pip install --ignore-installed six && pip install tensorflow==1.14.0 --progress-bar off"
    
 install:
   - git clone https://github.com/ros-industrial/industrial_ci.git .industrial_ci
