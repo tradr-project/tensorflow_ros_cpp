@@ -154,10 +154,10 @@ if(NOT EXISTS ${TENSORFLOW_LIBRARY2})
 endif()
 
 execute_process(
-    COMMAND ldd ${TENSORFLOW_LIBRARY}
-    OUTPUT_VARIABLE LDD_OUTPUT
+    COMMAND nm -CD ${TENSORFLOW_ORIG_LIBRARY}
+    OUTPUT_VARIABLE NM_OUTPUT
 )
-if(${LDD_OUTPUT} MATCHES "libcudart.so")
+if(${NM_OUTPUT} MATCHES "cudaError")
   set(HAS_TENSORFLOW_GPU 1)
   message("-- -- The Tensorflow library is compiled with CUDA support.")
 else()
