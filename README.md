@@ -47,6 +47,8 @@ TF | CUDA | CUDNN | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (G
 1.6.0  | 8 | 6 | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
 1.7.0  | 8 | 6 | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span>
 1.8.0  | 8 | 6 | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 9)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.14.0  | 8 | 6 | <span style="color:green">✓</span> | <span style="color:red">N/A (wants CUDA 10)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.15.0  | 8 | 6 | <span style="color:red">X (link error)</span> | <span style="color:red">N/A (wants CUDA 10)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
 
 ### Ubuntu 14.04 64bits, Python 3.4, ROS Indigo
 
@@ -71,6 +73,8 @@ TF | CUDA | CUDNN | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (G
 1.6.0  | 9.0 | 7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
 1.7.0  | 9.0 | 7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span>
 1.8.0  | 9.0 | 7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.14.0  | 9.0 | 7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:red">N/A (wants CUDA 10)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
+1.15.0  | 9.0 | 7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:red">N/A (wants CUDA 10)</span> | ? | ? | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
 
 ### Ubuntu 16.04 64bits, Python 3.5, ROS Kinetic
 
@@ -96,7 +100,8 @@ TF | CUDA | CUDNN | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (G
 1.7.0  | 9.1 | 7.1 | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | ? | ? | <span style="color:green">✓</span> | <span style="color:green">✓</span>
 1.8.0  | 9.0 | 7.1 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
 1.8.0  | 9.1 | 7.1 | <span style="color:red">N/A</span> | <span style="color:red">N/A</span> | <span style="color:green">✓</span> | <span style="color:green">✓</span> | <span style="color:red">N/A</span> | <span style="color:red">N/A</span>
-1.14.0  | 10.0 | 7.4 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:green">✓<</span> | ? | ? | ?
+1.14.0  | 10.0 | 7.4 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:green">✓</span> | ? | ? | ?
+1.14.0  | 10.0 | 7.4 | <span style="color:orange">✓, see ABI difference problems</span> | ? | ? | ? | ? | ?
 
 ### Ubuntu 18.04 64bits, Python 3.6, ROS Melodic
 
@@ -209,3 +214,5 @@ If you encounter memory problems during the build, you can limit the used resour
 ### Possible problems
 
 If you encounter crashes when running the TF-using application, or it errors out with `Not found: No session factory registered for the given session options`, try the change to `tensorflow/BUILD` suggested in https://github.com/tradr-project/tensorflow_ros_cpp/issues/9#issuecomment-604692643, clean the bazel workspace, and build it again.
+
+Tensorflow 1.15+ is not compatible with ROS Indigo. You will get linking errors when using the library. Please use TF 1.14 or older on Indigo.
