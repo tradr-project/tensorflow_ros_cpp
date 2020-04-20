@@ -41,7 +41,7 @@ if(NOT ${TENSORFLOW_DIR_FOUND})
   endif()
   string(REGEX REPLACE "^pip ([0-9.]+) .*$" "\\1" PIP_VERSION ${PIP_VERSION_OUTPUT})
   if(${PIP_VERSION} VERSION_LESS "9.0.0")
-    message(WARNING "-- -- ${TF_PIP_EXECUTABLE} version is ${PIP_VERSION}, which is too old for Tensorflow. Run 'sudo ${TF_PIP_EXECUTABLE} install --upgrade pip'.")
+    message(WARNING "-- -- ${TF_PIP_EXECUTABLE} version is ${PIP_VERSION}, which is too old for Tensorflow. Run '${TF_PIP_EXECUTABLE} install --user --upgrade pip'.")
     return()
   else()
     message("-- -- Found pip version ${PIP_VERSION}")
@@ -70,9 +70,9 @@ if(NOT ${TENSORFLOW_DIR_FOUND})
     # parse pip output in case it found tensorflow
     string(REGEX MATCH "Location: [^\r\n]*[\r\n]" TENSORFLOW_LOCATION ${PIP_SHOW_OUTPUT})
     string(REGEX REPLACE "^Location: (.*)[\r\n]$" "\\1" TENSORFLOW_LOCATION2 ${TENSORFLOW_LOCATION})
+    set(TENSORFLOW_PATH_BASE "${TENSORFLOW_LOCATION2}")
     set(TENSORFLOW_PATH "${TENSORFLOW_LOCATION2}/tensorflow")
     set(TENSORFLOW_DIR_FOUND 1)
-    message("-- -- Found pip-installed tensorflow: ${TENSORFLOW_PATH}")
   else()
     # try finding tensorflow on the PYTHON_PACKAGE_PATH and a few other system paths
     find_path(TENSORFLOW_LOCATION tensorflow
@@ -86,9 +86,9 @@ if(NOT ${TENSORFLOW_DIR_FOUND})
         NO_DEFAULT_PATH
         )
     if(NOT ${TENSORFLOW_LOCATION} MATCHES NOTFOUND)
+      set(TENSORFLOW_PATH_BASE "${TENSORFLOW_LOCATION}")
       set(TENSORFLOW_PATH "${TENSORFLOW_LOCATION}/tensorflow")
       set(TENSORFLOW_DIR_FOUND 1)
-      message("-- -- Found tensorflow: ${TENSORFLOW_PATH}")
     endif()
   endif()
 endif()
@@ -97,6 +97,12 @@ if(NOT ${TENSORFLOW_DIR_FOUND})
   message(WARNING "-- -- Tensorflow could not be found via pip. Try installing it manually using 'sudo pip${TF_PYTHON_VERSION} install tensorflow' or 'pip${TF_PYTHON_VERSION} install --user tensorflow', or set the TENSORFLOW_PATH environment variable to point to the *dist-pacakges/tensorflow directory.")
   return()
 endif()
+
+# TF 1.15 started putting the libraries in tensorflow_core directory instead of tensorflow in site-packages
+if(EXISTS "${TENSORFLOW_PATH}" AND NOT EXISTS "${TENSORFLOW_PATH}/python" AND EXISTS "${TENSORFLOW_PATH_BASE}/tensorflow_core/python")
+  set(TENSORFLOW_PATH "${TENSORFLOW_PATH_BASE}/tensorflow_core")
+endif()
+message("-- -- Found tensorflow: ${TENSORFLOW_PATH}")
 
 # we need to add the `lib` prefix to the library name so that the linker can find it!
 # first, test for presence of the Tensorflow 1.1+ library
