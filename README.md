@@ -205,3 +205,7 @@ If you encounter memory problems during the build, you can limit the used resour
 - `TF_BAZEL_LIBRARY:STRING` (default `"${CATKIN_DEVEL_PREFIX}/../libtensorflow_cc.so"`): Full path to the build `libtensorflow_cc.so` library. If you put a symlink in your Catkin workspace root, it will be picked up by the default value.
 - `TF_BAZEL_SRC_DIR:STRING` (default `"${CATKIN_DEVEL_PREFIX}/../tensorflow-include-base"`): Path to the sources folder of Tensorflow (your clone of the Git repository). If you put a symlink named `tensorflow-include-base` in your Catkin workspace root, it will be picked up by the default value.
 - `TF_BAZEL_USE_SYSTEM_PROTOBUF:BOOl` (default `OFF`): Whether to use system-installed protobuf includes or those distributed with Tensorflow.
+
+### Possible problems
+
+If you encounter crashes when running the TF-using application, or it errors out with `Not found: No session factory registered for the given session options`, try the change to `tensorflow/BUILD` suggested in https://github.com/tradr-project/tensorflow_ros_cpp/issues/9#issuecomment-604692643, clean the bazel workspace, and build it again.
