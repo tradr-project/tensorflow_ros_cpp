@@ -2,6 +2,18 @@
 Changelog for package tensorflow_ros_cpp
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Switch to Github Actions CI
+* Noetic and TF2 support
+* Removed support for TF 1.15 on Indigo as it is known to have problems and Indigo is EOL.
+* Better way of detecting CUDA support in pip-found TF.
+* Do not output progressbars of pip in travis, the log gets too long then.
+* Added support for TF 1.15.
+* Update CI to test TF 1.0, 1.8, 1.14 and latest 1.x (not 2.x as before)
+* Added possible problem description derived from `#9 <https://github.com/tradr-project/tensorflow_ros_cpp/issues/9>`_
+* Contributors: Martin Pecka
+
 3.1.2 (2019-08-29)
 ------------------
 * Merge branch 'master' of git@github.com:tradr-project/tensorflow_ros_cpp.git
