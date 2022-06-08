@@ -2,8 +2,8 @@
 Changelog for package tensorflow_ros_cpp
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+3.2.0 (2022-06-08)
+------------------
 * Switch to Github Actions CI
 * Noetic and TF2 support
 * Removed support for TF 1.15 on Indigo as it is known to have problems and Indigo is EOL.
