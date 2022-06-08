@@ -157,12 +157,34 @@ execute_process(
     COMMAND nm -CD ${TENSORFLOW_ORIG_LIBRARY}
     OUTPUT_VARIABLE NM_OUTPUT
 )
+
+if(${NM_OUTPUT} MATCHES "TF_Tensor::~TF_Tensor")
+  set(TF_LIBRARY_DETECTED_VERSION 1)
+  message("-- -- The Tensorflow library is version 1.x.")
+else()
+  set(TF_LIBRARY_DETECTED_VERSION 2)
+  message("-- -- The Tensorflow library is version 2.x.")
+endif()
+
+if(NOT "${TF_LIBRARY_VERSION}" STREQUAL "${TF_LIBRARY_DETECTED_VERSION}")
+    message(WARNING "-- -- Detected TF library version ${TF_LIBRARY_DETECTED_VERSION} does not match the requested version ${TF_LIBRARY_VERSION}")
+    return()
+endif()
+
 if(${NM_OUTPUT} MATCHES "cudaError")
   set(HAS_TENSORFLOW_GPU 1)
   message("-- -- The Tensorflow library is compiled with CUDA support.")
 else()
   set(HAS_TENSORFLOW_GPU 0)
   message("-- -- The Tensorflow library is compiled without CUDA support.")
+endif()
+
+if(${NM_OUTPUT} MATCHES "__cxx11")
+  set(TF_LIBRARY_USES_CXX11_ABI 1)
+  message("-- -- The Tensorflow library uses C++11 ABI.")
+else()
+  set(TF_LIBRARY_USES_CXX11_ABI 0)
+  message("-- -- The Tensorflow library does not use C++11 ABI.")
 endif()
 
 set(TENSORFLOW_LIBRARIES _pywrap_tensorflow)
@@ -221,7 +243,7 @@ if (EXISTS ${TENSORFLOW_PATH}/include/external/nsync/public)
   list(APPEND TENSORFLOW_INCLUDE_DIRS ${TENSORFLOW_PATH}/include/external/nsync/public)
 endif()
 
-if(${SYSTEM_USES_CXX11_ABI})
+if(NOT "${TF_LIBRARY_USES_CXX11_ABI}" STREQUAL "${SYSTEM_USES_CXX11_ABI}")
   message(WARNING "-- -- Tensorflow library and system C++ ABI differ. You should consider building Tensorflow yourself. In case you still want to use the python TF library, itcan only be used from targets that do not link to any system libraries that have a C++ API (e.g. a method with std::string argument). Your library using Tensorflow must expose all methods using a C API, or a limited C++ API with only primitive data types (numerics, arrays, chars, but not std::vectors or std::strings). See the kinetic-devel branch of github.com/tradr-project/tensorflow_ros_test for an example.")
 endif()
 
@@ -229,3 +251,4 @@ set(TENSORFLOW_FOUND 1)
 set(TENSORFLOW_FOUND_BY "pip")
 set(tensorflow_ros_cpp_INCLUDE_DIRS ${TENSORFLOW_INCLUDE_DIRS})
 set(tensorflow_ros_cpp_LIBRARIES ${TENSORFLOW_LIBRARIES})
+set(tensorflow_ros_cpp_USES_CXX11_ABI ${TF_LIBRARY_USES_CXX11_ABI})

@@ -1,7 +1,13 @@
-set(CMAKE_CXX_FLAGS "-std=c++11 -Wl,--no-as-needed ${CMAKE_CXX_FLAGS}")
+if(@TF_LIBRARY_VERSION@ STREQUAL "1")
+    set(CMAKE_CXX_FLAGS "-std=c++11 -Wl,--no-as-needed ${CMAKE_CXX_FLAGS}")
+else()
+    set(CMAKE_CXX_FLAGS "-Wl,--no-as-needed ${CMAKE_CXX_FLAGS}")
+endif()
 
 # Whether the found TF library uses C++11 ABI or not
 set(tensorflow_ros_cpp_USES_CXX11_ABI @tensorflow_ros_cpp_USES_CXX11_ABI@)
+
+set(tensorflow_ros_cpp_TF_LIBRARY_VERSION @TF_LIBRARY_VERSION@)
 
 # Flags to be added via target_compile_definitions(target PRIVATE ...) to targets that link to TF in case TF is linked
 # as a target-private dependency (e.g. when working around the C++ ABI problems).

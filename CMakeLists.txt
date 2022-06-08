@@ -1,9 +1,14 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.8.0)
 project(tensorflow_ros_cpp)
 
 find_package(catkin REQUIRED)
 
 # variables affecting the search for the tensorflow library
+if("$ENV{ROS_PYTHON_VERSION}" STREQUAL "2")
+    set(TF_LIBRARY_VERSION 1 CACHE STRING "Whether to search for Tensorflow 1.x or 2.x")
+else()
+    set(TF_LIBRARY_VERSION 2 CACHE STRING "Whether to search for Tensorflow 1.x or 2.x")
+endif()
 set(FORCE_TF_PIP_SEARCH OFF CACHE BOOL "Whether to search for pip-installed Tensorflow even on systems using C++11 ABI")
 set(DISABLE_TF_PIP_SEARCH OFF CACHE BOOL "Whether to skip search for pip-installed Tensorflow")
 set(FORCE_TF_BAZEL_SEARCH OFF CACHE BOOL "Whether to search for bazel-compiled Tensorflow even if tensorflow was already found")
@@ -12,7 +17,7 @@ set(FORCE_TF_CATKIN_SEARCH OFF CACHE BOOL "Whether to search for tensorflow_catk
 set(DISABLE_TF_CATKIN_SEARCH OFF CACHE BOOL "Whether to skip search for tensorflow_catkin")
 
 # variables affecting pip search
-set(TF_PYTHON_VERSION 2.7 CACHE STRING "Python version to be used for searching for Tensorflow")
+set(TF_PYTHON_VERSION $ENV{ROS_PYTHON_VERSION} CACHE STRING "Python version to be used for searching for Tensorflow")
 set(TF_PYTHON_LIBRARY "" CACHE STRING "Python development library of the interpreter used for the found tensorflow. Use only when find_package finds wrong version of PythonLibs, which might be the case if you want to use Tensorflow from Python3.")
 set(TF_PIP_EXECUTABLE pip${TF_PYTHON_VERSION} CACHE STRING "Path to pip executable used for searching for tensorflow")
 set(TF_PIP_DISABLE_SEARCH_FOR_GPU_VERSION OFF CACHE BOOL "If ON, tensorflow-gpu will be ignored during the search")
@@ -24,13 +29,21 @@ set(TF_BAZEL_SRC_DIR "${CATKIN_DEVEL_PREFIX}/../tensorflow-include-base" CACHE S
 set(TF_BAZEL_USE_SYSTEM_PROTOBUF OFF CACHE BOOL "Whether to use system-installed protobuf includes or those distributed with Tensorflow")
 
 
+message("-- tensorflow_ros_cpp is searching for TensorFlow ${TF_LIBRARY_VERSION}.x library")
 message("-- tensorflow_ros_cpp is probing the system")
 
 # check for a modern c++ compiler, since tensorflow needs support for the c++11 standard
 include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
-if(NOT COMPILER_SUPPORTS_CXX11)
-	message(FATAL_ERROR "You must use a compiler that supports the c++11 standard, e.g. GCC 4.9.")
+if("${TF_LIBRARY_VERSION}" STREQUAL "1")
+    CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+    if(NOT COMPILER_SUPPORTS_CXX11)
+    	message(FATAL_ERROR "You must use a compiler that supports the c++11 standard, e.g. GCC 4.9.")
+    endif()
+else()
+    CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)
+    if(NOT COMPILER_SUPPORTS_CXX14)
+    	message(FATAL_ERROR "You must use a compiler that supports the c++14 standard, e.g. GCC 8.")
+    endif()
 endif()
 
 # detect if the system uses C++11 ABI
@@ -41,10 +54,20 @@ execute_process(
 )
 if("${DETECT_CXX11_ABI_RESULT}" STREQUAL "0")
 	set(SYSTEM_USES_CXX11_ABI 1 CACHE BOOL "Whether the system uses C++11 ABI")
-	message("-- - The system uses C++11 ABI, the use of tensorflow from pip is possible, but problematic; consider compiling tensorflow yourself")
+	message("-- - The system uses C++11 ABI.")
+    if("${TF_LIBRARY_VERSION}" STREQUAL "1")
+    	message("-- -- The use of tensorflow from pip is possible, but problematic; consider compiling tensorflow yourself")
+    else()
+        message("-- -- You can use tensorflow from pip without problems.")
+    endif()
 else()
 	set(SYSTEM_USES_CXX11_ABI 0 CACHE BOOL "Whether the system uses C++11 ABI")
-	message("-- - The system doesn't use C++11 ABI, you can use tensorflow from pip without problems")
+	message("-- - The system doesn't use C++11 ABI.")
+    if("${TF_LIBRARY_VERSION}" STREQUAL "1")
+    	message("-- -- You can use tensorflow from pip without problems.")
+    else()
+    	message("-- -- The use of tensorflow from pip is possible, but problematic; consider compiling tensorflow yourself")
+    endif()
 endif()
 
 # start the search
@@ -63,21 +86,17 @@ set(tensorflow_ros_cpp_USES_CXX11_ABI ${SYSTEM_USES_CXX11_ABI})
 
 # 1. PIP
 
-if((NOT ${SYSTEM_USES_CXX11_ABI} OR ${FORCE_TF_PIP_SEARCH}) AND NOT ${DISABLE_TF_PIP_SEARCH})
+if(((NOT ${SYSTEM_USES_CXX11_ABI} AND "${TF_LIBRARY_VERSION}" STREQUAL "1") OR (${SYSTEM_USES_CXX11_ABI} AND "${TF_LIBRARY_VERSION}" STREQUAL "2") OR ${FORCE_TF_PIP_SEARCH}) AND NOT ${DISABLE_TF_PIP_SEARCH})
 	message("-- - Trying to find Tensorflow installed by pip")
 
 	include(cmake/detect_tf_pip.cmake)
-
-	# pip-installed tensorflow is always built without C++11 ABI
-	if(${TENSORFLOW_FOUND})
-		set(tensorflow_ros_cpp_USES_CXX11_ABI 0)
-	endif()
-
 else()
 	if(${DISABLE_TF_PIP_SEARCH})
 		message("-- - Not searching for Tensorflow installed by pip, it is disabled.")
-	else()
+    elseif("${TF_LIBRARY_VERSION}" STREQUAL "1")
 		message("-- - Not searching for Tensorflow installed by pip since the system uses C++11 ABI. Set FORCE_TF_PIP_SEARCH to force the search.")
+    else()
+        message("-- - Not searching for Tensorflow installed by pip since the system does not use C++11 ABI. Set FORCE_TF_PIP_SEARCH to force the search.")
 	endif()
 endif()
 
@@ -129,7 +148,7 @@ else()
 	message("-- The found Tensorflow library is compiled without CUDA support.")
 endif()
 
-set(tensorflow_ros_cpp_CMAKE_CXX_FLAGS_PRIVATE "-D_GLIBCXX_USE_CXX11_ABI=${tensorflow_ros_cpp_USES_CXX11_ABI}")
+set(tensorflow_ros_cpp_CMAKE_CXX_FLAGS_PRIVATE "-D_GLIBCXX_USE_CXX11_ABI=${tensorflow_ros_cpp_USES_CXX11_ABI} -DTF_LIBRARY_VERSION=${TF_LIBRARY_VERSION}")
 
 catkin_package(
 	INCLUDE_DIRS ${tensorflow_ros_cpp_INCLUDE_DIRS}
