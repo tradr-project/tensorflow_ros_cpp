@@ -13,11 +13,13 @@ Get Tensorflow C++ API into ROS as easy as
 
 See the usage example at [https://github.com/tradr-project/tensorflow_ros_test].
 
+__New:__ Support for Noetic and TensorFlow 2.x!
+
 ## Supported Tensorflow installations
 
 You can choose either one of the following options to install `Tensorflow`.
 
-- **As a pip (Python) package:** The easiest way on Ubuntu 14.04, Just `pip install tensorflow` and that's it. GPU version supported! Can be used on newer Ubuntu versions, but with important limitations.
+- **As a pip (Python) package:** The easiest way on Ubuntu 14.04 and 20.04, Just `pip install tensorflow` and that's it. GPU version supported! Can be used on Ubuntu 16.04 and 18.04, too, but with important limitations.
 - **Using [`tensorflow_catkin`](https://github.com/ethz-asl/tensorflow_catkin) package:** Easily compile Tensorflow for your platform. A convenient way on newer systems. Supports GPU version.
 - **Using a custom build of Tensorflow built by bazel:** The least comfortable, yet most powerful way. [Compile Tensorflow yourself using bazel](https://www.tensorflow.org/install/install_sources) and tell this package where to find it.
 
@@ -112,6 +114,11 @@ TF | CUDA | CUDNN | pip3 tensorflow | pip3 tensorflow-gpu
 1.8.0 | 9.0 | 7.0 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span>
 1.14.0 | 10.0 | 7.4 | <span style="color:orange">✓, see ABI difference problems</span> | <span style="color:orange">✓, see ABI difference problems</span>
 
+### Ubuntu 20.04 64bits, Python 3.8, ROS Noetic
+
+TF | CUDA | CUDNN | pip3 tensorflow
+--- | --- | --- | --- | ---
+2.9.1  | no | no | <span style="color:green">✓</span> | <span style="color:green">✓</span>
 
 ### Debian Jessie 64bits, Python 2.7.6, ROS Indigo
 
@@ -130,6 +137,13 @@ TF | CUDA | CUDNN | pip tensorflow | pip tensorflow-gpu | bazel (CPU) | bazel (G
 Except for the standard catkin variables (`tensorflow_ros_cpp_INCLUDE_DIRS`, `tensorflow_ros_cpp_LIBRARIES`, `tensorflow_ros_cpp_DEPENDS` and `tensorflow_ros_cpp_CATKIN_DEPENDS`), the following variables can be used from packages that `find_package` this package:
 
  - `tensorflow_ros_cpp_USES_CXX11_ABI` (bool): Whether the used Tensorflow library is built using C++11 ABI or not.
+ - `tensorflow_ros_cpp_TF_LIBRARY_VERSION` (int): Whether the found library is TF 1 or 2.
+
+## Configuration-time CMake variables
+
+These variables are read when configuring the package:
+
+- `TF_LIBRARY_VERSION` (int): Either 1 or 2 depending on whether you want TF 1.x or 2.x. This will not modify the search behavior, but it will check whatever is found, and if it does not satisfy the major version, another search method is tried.
 
 ## Pip installation
 
@@ -164,7 +178,7 @@ You can change these variables either in the CMake cache file, or from commandli
 ### C++ ABI difference problems
 
 Ubuntu systems starting with 16.04 (Xenial) are using the new C++11 ABI for all system libraries.
-Until [pip bug 1707002](https://bugs.launchpad.net/ubuntu/+source/python-pip/+bug/1707002) gets resolved (if ever!), the pip-distributed Tensorflow is built againts an older C++ ABI, which is incompatible with the C++11 ABI. This means linking to the Tensorflow library will fail on such systems and there's no way around it.
+Until [pip bug 1707002](https://bugs.launchpad.net/ubuntu/+source/python-pip/+bug/1707002) gets resolved (if ever!), the pip-distributed Tensorflow is built againts an older C++ ABI, which is incompatible with the C++11 ABI. This means linking to the Tensorflow library will fail on such systems and there's no way around it. This only affects TF 1.x, because TF 2.x is always built with C++11 ABI.
 
 The only "workaround" is to wrap all tensorflow code into a library that exposes its functions using C API (so no `std::string`s, `std::vector`s or Eigen types) and which does not link to any system library with a C++ API.
 Such library can then be built separately with `-D_GLIBCXX_USE_CXX11_ABI=0`.
